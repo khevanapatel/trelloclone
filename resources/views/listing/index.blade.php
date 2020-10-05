@@ -61,15 +61,15 @@
 @endsection
 
 @section('script')
-    <script src="{{ url('js/jquery.min.js') }}"></script>
-    <script src=" http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js "></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"
+    rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
 
         $(document).ready(function() {
-
             $(":checkbox").click(countChecked);
            // get box count
                 var count = 0;
@@ -146,7 +146,6 @@
             $('#lablefrom').on('submit', function(event){
                 event.preventDefault();
                 var label = $('#labe').val();
-                alert(label);
                 $.ajax({
                     url:'{{ URL::route('update/files') }}',
                     method:"post",
@@ -161,25 +160,23 @@
                 });
             });
 
-            $('upload_form').on('submit', function(event){
-                event.preventDefault();
-                $.ajax({
-                    url: "{{ route('files/upload') }}",
-                    method: "POST",
-                    data: new FormData(this),
-                    dataType: 'JSON',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        $('#message').css('display', 'block');
-                        $('#message').html(data.message);
-                        $('#message').addClass(data.class_name);
-                        $('#uploaded_image').html(data.uploaded_image);
-                        $('#id').html(data.id);
+            $(".deleteRecord").click(function(){
+                var id = $(this).data("id");
+                $.ajax(
+                {
+                    url: "delete/files/"+id,
+                    type: 'GET',
+                    data: {
+                        "id": id,
+                    },
+                    success: function (){
+                        console.log("it Works");
                     }
                 });
+
             });
+
+
 
             $('#commentform').on('submit', function(event) {
                 event.preventDefault();
@@ -215,9 +212,7 @@
                     processData: false,
                     success: function(data) {
                         $('#message').css('display', 'block');
-                        $('#message').html(data.message);
-                        $('#message').addClass(data.class_name);
-                        $('#uploaded_image').html(data.uploaded_image);
+                        $('#upload_form').html(data.upload_form);
                         $('#cart_id').html(data.cart_id);
                     }
                 })

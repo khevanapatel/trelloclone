@@ -111,20 +111,28 @@ class ListingController extends Controller
     // Store Files //
     public function storefiles(Request $request)
     {
-        // return $request->all();
+        return $request->all();
         $files = new Cartpop();
         $files->card_id = $request->cart_id;
 
-            $image = $request->file('select_file');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('files'), $new_name);
-            $files->select_file = $new_name;
-            $files->save();
-            return response()->json([
-            'message'   => 'Image Upload Successfully',
-            'uploaded_image' => '<img src="/images/'.$new_name.'" class="img-thumbnail" width="300" />',
-            'class_name'  => 'alert-success'
-        ]);
+
+            if($request->file('select_file'))
+			{
+				$image 							= $request->file('select_file');
+				$input['imagename'] 			= time().'.'.$image->getClientOriginalExtension();
+				$destinationPath 				= public_path('files');
+				$image->move($destinationPath, $input['imagename']);
+                $files->select_file 	= $input['imagename'];
+                $files->save();
+                return response()->json([]);
+		    }
 
     }
+    public function deletefiles($id){
+
+        $listing = Cartpop::find($id);
+        $listing->delete();
+        return redirect()->route('carts');
+    }
+
 }

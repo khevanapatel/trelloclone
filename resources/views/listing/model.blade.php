@@ -38,8 +38,8 @@
                                 @else
                                     <div class="images">
                                         <div class="center-image">
-                                        <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
-                                        <a href="javascript:void(0);" class=''>Delete</a>
+                                            <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
+                                            <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
                                         </div>
                                     </div>
 
@@ -125,11 +125,11 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Attachment</h4>
                 </div>
-                <form method="post" id="upload_form" enctype="multipart/form-data">
+                <form method="POST" id="upload_form" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <p>Attachment</p>
-                        <input type="file" name="select_file" id="select_file" value="">
+                        <input type="file" name="select_file[]" id="select_file" value="">
                         <input type="hidden" id="cart_id" name="cart_id" value="">
                         @foreach ($listings as $key)
                             @foreach ($key->cards as $vau)
@@ -161,3 +161,20 @@
             </div>
         </div>
     </div>
+
+    @foreach($files as $value)
+    <div class="modal fade checklist" id="deletedoc" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Attachment</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Deleting an attachment is permanent. There is no undo.</p>
+                        <button class="deleteRecord" data-id="{{ 91 }}" >Delete Record</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach

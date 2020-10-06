@@ -32,7 +32,7 @@ Route::post('/listing/edit','ListingController@update');
 Route::get('/listingsdelete/{listing_id}', 'ListingController@destroy');
 Route::get('update/items','ListingController@updateItems')->name('update/items');
 Route::post('update/files','ListingController@storedata')->name('update/files');
-Route::any('files/upload','ListingController@storefiles')->name('files/upload');
+Route::post('files/upload','ListingController@storefiles')->name('files/upload');
 Route::get('board','ListingController@board')->name('board');
 Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete/files');
 

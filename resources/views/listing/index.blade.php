@@ -21,6 +21,20 @@
         img.img-fluid.lazyload.product-img {
             width: 80px;
         }
+        .ui-progressbar {
+             height: 1em !important;
+        }
+        .ui-widget {
+            font-size: 0.1em !important;
+        }
+        .ui-widget-content{
+            height: 11em !important;
+        }
+        .members-model {
+            margin-bottom: 10px;
+        }
+        .form-check {
+            margin-top: 15px;
     </style>
 @endsection
 
@@ -52,17 +66,16 @@
                         <div class="add_Card">
                             <a class="addCard_link" href="/listing/{{ $listing->id }}/card/new"><i class="far fa-plus-square"></i>Add more cards</a>
                         </div>
-                        @include('listing.model')
                     </div>
                 </div>
             @endforeach
+            @include('listing.model')
         </div>
     </div>
 @endsection
 
 @section('script')
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="{{ url('js/jquery.min.js') }}"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"
     rel="stylesheet" type="text/css" />
@@ -160,6 +173,43 @@
                 });
             });
 
+            $('#upload_form').on('submit', function(event) {
+                event.preventDefault();
+                var formData = $('#formData').serialize();
+                $.ajax({
+                    url: "{{ route('update/files') }}",
+                    method: "POST",
+                    data : formData, 'id':id,
+                    success: function(response) {
+                        console.log('success');
+                    }
+                })
+            });
+
+
+            $('#upload_form').on('submit', function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('files/upload') }}",
+                    method: "POST",
+                    data: new FormData(this),
+                    dataType: 'JSON',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        console.log(data);
+                        $('#message').css('display', 'block');
+                        $('#message').html(data.message);
+                        $('#message').addClass(data.class_name);
+                        $('#uploaded_image').html(data.uploaded_image);
+                        $('#cart_id').html(data.cart_id);
+                    }
+                })
+            });
+
+
             $(".deleteRecord").click(function(){
                 var id = $(this).data("id");
                 $.ajax(
@@ -196,26 +246,6 @@
                     }
 
                 });
-            });
-        });
-
-        $(document).ready(function() {
-            $('#upload_form').on('submit', function(event) {
-                event.preventDefault();
-                $.ajax({
-                    url: "{{ route('files/upload') }}",
-                    method: "POST",
-                    data: new FormData(this),
-                    dataType: 'JSON',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        $('#message').css('display', 'block');
-                        $('#upload_form').html(data.upload_form);
-                        $('#cart_id').html(data.cart_id);
-                    }
-                })
             });
         });
     </script>

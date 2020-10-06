@@ -30,36 +30,46 @@
                                         aria-hidden="true"></i></button>
                             </form>
                         </h4>
-                        @if(@$file->select_file == '')
-                        @else
-                            <h4>Attachment</h4>
-                            @foreach ($files as $file)
-                                @if ($file->select_file == '')
-                                @else
-                                    <div class="images">
-                                        <div class="center-image">
-                                            <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
-                                            <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
-                                        </div>
-                                    </div>
 
+                        <div class="attachment">
+                            @if($file->select_file == null)
+                            @else
+                                <h4>Attachment</h4>
+                                @foreach ($files as $file)
+                                    @if($file->select_file == null)
+                                    @else
+                                        <div class="images">
+                                            <div class="center-image">
+                                                <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
+                                                <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <div class="checklist">
+                            @if(@$file->checklist)
+                            @else
+                                <h4>Checklist</h4>
+                                <div class="progressbar-container">
+                                    <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
+                                    <span><div class="progressbar-label"></div></span>
+                                </div>
+                            @foreach ($files as $file)
+                                @if($file->checklist == null)
+                                @else
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                          {{ $file->checklist }}
+                                        </label>
+                                    </div>
                                 @endif
                             @endforeach
-                        @endif
-                        @if(@$file->checklist == '')
-                        @else
-                            <h4>Checklist</h4>
-                            <div class="progressbar-container">
-                                <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
-                                <div class="progressbar-label"></div>
-                            </div>
-                        @foreach ($files as $file)
-                            @if ($file->checklist == '')
-                            @else
-                                   <div><input class="checkbox" type="checkbox" name="checkbox" id="checkbox">{{ $file->checklist }}</div>
                             @endif
-                        @endforeach
-                        @endif
+                        </div>
                         <h4>
                             <form class="theme-form" id="commentform" action="">
                                 <span class="name-title"> Activets </span>
@@ -73,32 +83,46 @@
                     <div class="row">
                         <div class="col-md-2 ml-auto">
                             <p class="addtocart"> Add to Cart </p>
-                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#myModal"
-                                title="Members"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#members"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text members">Members</span></a>
-                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#checklist"
-                                title="Members"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#checklist"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Checklist</span></a>
-                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#attachment"
-                                title="Members"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#attachment"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Attachment</span></a>
-                            <a class="button-link js-change-card-members" href="#" title="Members"><span
-                                    class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Dates</span></a>
-                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"
-                                title="Members"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Labels</span></a>
-                            <a class="button-link js-change-card-members" href="#" title="Members"><span
-                                    class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Carts</span></a>
-                            <a class="button-link js-change-card-members" href="#" title="Members"><span
-                                    class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">All Carts</span></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+    <div class="modal fade members" id="members" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">All Members</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="theme-form" id="checklistform" action="">
+                        @foreach($user as $key => $value)
+                        <div class="members-model">
+                                {{ $value->name }} ({{ $value->email }})
+                        </div>
+                        @endforeach
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade checklist" id="checklist" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -129,14 +153,9 @@
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <p>Attachment</p>
-                        <input type="file" name="select_file[]" id="select_file" value="">
-                        <input type="hidden" id="cart_id" name="cart_id" value="">
-                        @foreach ($listings as $key)
-                            @foreach ($key->cards as $vau)
-                                <input value="{{ $vau->id }}" type="hidden" name="cart_id">
-                            @endforeach
-                        @endforeach
-                        <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Save">
+                        <input type="file" name="select_file" id="select_file" value="">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="submit" name="upload" id="submit" class="btn btn-primary" value="Upload">
                     </div>
                 </form>
             </div>

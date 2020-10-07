@@ -71,3 +71,87 @@ span.js-sidebar-action-text {
 form#commentform {
     margin-bottom: 65px;
 }
+
+button.menu {
+    margin-bottom: 25px;
+}
+form#riderform {
+    margin-bottom: 40px;
+}
+input#checklist {
+    margin-bottom: 15px;
+}
+button.btn.btn-default.save {
+    color: #fff;
+    background-color: #026aa7;
+    border-color: #026aa7;
+}
+input#select_file {
+    margin-bottom: 15px;
+}
+img.img-fluid.lazyload.product-img {
+    width: 80px;
+}
+.ui-progressbar {
+     height: 1em !important;
+}
+.ui-widget {
+    font-size: 0.1em !important;
+}
+.ui-widget-content{
+    height: 11em !important;
+}
+.members-model {
+    margin-bottom: 10px;
+}
+.form-check {
+    margin-top: 15px;
+}
+
+/* home page Css */
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+h4.Please {
+    text-align: center;
+}
+

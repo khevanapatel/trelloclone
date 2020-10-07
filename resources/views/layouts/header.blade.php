@@ -8,6 +8,10 @@
             <li>
                 <ul class="header_menu_inner">
                     <li>
+                        <a class="nav-link" href="{{ route('carts') }}">Cart</a>　　
+                    </li>
+
+                    <li>
                         <a class="nav-link listNew" href="{{ route('new') }}">Create a list</a>　　
                     </li>
                     <li>

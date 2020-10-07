@@ -89,7 +89,7 @@
                                 </span><span class="js-sidebar-action-text">Checklist</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#attachment"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Attachment</span></a>
-                            <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#dates"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Dates</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text">Labels</span></a>
@@ -99,9 +99,24 @@
                                 </span><span class="js-sidebar-action-text">All Carts</span></a>
                         </div>
                     </div>
+            </div>
+        </div>
+
+
+    <div class="modal fade dates" id="dates" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Date</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="start">Start date:</label>
+                    <input type="date" id="start" name="start">
                 </div>
             </div>
         </div>
+    </div>
 
 
     <div class="modal fade members" id="members" role="dialog">

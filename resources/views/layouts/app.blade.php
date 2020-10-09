@@ -16,9 +16,9 @@
 </head>
 <body>
 <!-- Show headers only if you are logged in --->
-@auth
-        @include('layouts.header')
-@endauth
+
+        <x-header/>
+
     @yield('content')
     <!-- footer -->
 @include('layouts.footer')

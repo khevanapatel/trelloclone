@@ -1,6 +1,27 @@
 @extends('layouts.app')
 @section('style')
     <style type="text/css">
+        input#check {
+            margin-bottom: 15px;
+        }
+        input#comment {
+            margin-bottom: 10px;
+        }
+        input#textInput {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        input#defaultCheck1 {
+            margin-bottom: 2%;
+        }
+        .ui-widget-header{
+            background: #5cb85c !important;
+
+        }
+
     </style>
 @endsection
 
@@ -47,10 +68,24 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript">
+    <script type="text/javascript"/>
+
+    function showInputBox() {
+        if (document.getElementById("textInput")) {
+          document.getElementById("textInput").style.display = 'block';
+          location.relorad
+        } else {
+            //IF INPUT BOX DOES NOT EXIST
+          var inputBox = document.createElement("INPUT");
+          inputBox.setAttribute("type", "text");
+          inputBox.setAttribute("id", "dynamicTextInput");
+          document.body.appendChild(inputBox);
+          alert("No");
+        }
+      }
+
 
         $(document).ready(function() {
-
             $(":checkbox").click(countChecked);
            // get box count
                 var count = 0;
@@ -109,6 +144,26 @@
                     data: {
                         '_token': "{{ csrf_token() }}",
                         'show': show,
+                        'id': id,
+
+                    },
+                    success: function(response) {
+                        console.log('success');
+                    }
+
+                });
+            });
+
+            $('#addchecklist').on('submit', function(event) {
+                event.preventDefault();
+                var textInput = $("#textInput").val();
+
+                $.ajax({
+                    url: "update/files",
+                    method: "post",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'textInput': textInput,
                         'id': id,
 
                     },
@@ -218,7 +273,7 @@
                 $('#commentform').on('submit', function(event) {
                     event.preventDefault();
 
-                    var comment = $('#checklist').val();
+                    var comment = $('#comment').val();
 
                     $.ajax({
                         url: "update/files",

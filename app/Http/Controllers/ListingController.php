@@ -27,7 +27,7 @@ class ListingController extends Controller
 
         $listings = Listing::with('cards')->where('user_id',Auth::user()->id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
-        $files = Cartpop::where('card_id',24)->get();
+        $files = Cartpop::get();
         $user = User::get();
         return view('listing/index',['listings'=>$listings ,'files'=>$files,'carts'=>$carts, 'user'=>$user]);
     }
@@ -102,7 +102,7 @@ class ListingController extends Controller
         $file= new Cartpop();
         $file->description = $request->show;
         $file->comment     = $request->comment;
-        $file->checklist   = $request->checklist;
+        $file->checklist   = $request->textInput;
         $file->label       = $request->label;
         $file->card_id     = $request->id;
         $file->date        = $request->start;
@@ -135,7 +135,7 @@ class ListingController extends Controller
 
     public function deletefiles($id){
 
-    return  $listing = Cartpop::find($id);
+        $listing = Cartpop::find($id);
         $listing->delete();
         return redirect()->route('carts');
     }

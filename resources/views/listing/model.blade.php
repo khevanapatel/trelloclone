@@ -1,6 +1,5 @@
 
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true">
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -11,14 +10,14 @@
                     </div>
                     <div class="col-md-10">
                         @foreach ($files as $file)
-                            @if ($file->label == '')
+                            @if(@$file->label == null)
                             @else
                                 <div class="labels-labes">
                                     <h5>LABEL</h5>
                                     <span class="labels">{{ $file->label }} </span>
                                 </div>
                             @endif
-                            @if($file->date == '')
+                            @if(@$file->date == null)
                             @else
                             <div class="dates-date">
                                 <h5>DUE DATE</h5>
@@ -35,60 +34,61 @@
                                     <span class="name-title">Description</span>
                                     <input type="text" class="form-control description-comment" name="description" id="show"
                                         value="" placeholder="Description">
-                                    <input type="submit" value="Save" name="submit" id="submit" class="menu"
-                                    style="display: none;">
-                                    <button type="button" class="menu" style="display: none;"><i class="fa fa-times"
-                                            aria-hidden="true"></i></button>
+                                    <input type="submit" value="Save" name="submit" id="submit" class="btn btn-success menu" style="display: none;">
+                                    <button type="button" class="menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                                 </form>
                             </h4>
                         </div>
 
                         <div class="attachment">
                             @foreach ($files as $file)
-                            @if($file->select_file == null)
-                            @else
-                                <h4>Attachment</h4>
-                                @foreach ($files as $file)
-                                    @if($file->select_file == null)
-                                    @else
-                                        <div class="images">
-                                            <div class="center-image">
-                                                <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
-                                                <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
+                                @if($file->select_file == null)
+                                @else
+                                    <h4>Attachment</h4>
+                                    @foreach ($files as $file)
+                                        @if($file->select_file == null)
+                                        @else
+                                            <div class="images">
+                                                <div class="center-image">
+                                                    <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
+                                                    <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            @endif
+                                        @endif
+                                    @endforeach
+                                @endif
                             @endforeach
                         </div>
 
                         <div class="checklist">
-                            @if(@$file->checklist)
+                            @if(@$file->checklist == '')
                             @else
-                                <h4>Checklist</h4>
-                                <div class="progressbar-container">
-                                    <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
-                                    <span><div class="progressbar-label"></div></span>
-                                </div>
+                            <h4>Checklist</h4>
+                            <div class="progressbar-container">
+                                <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
+                                <span><div class="progressbar-label"></div></span>
+                            </div>
                             @foreach ($files as $file)
-                                @if($file->checklist == null)
+                                @if($file->checklist == '')
                                 @else
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                          {{ $file->checklist }}
-                                        </label>
+                                        {{ $file->checklist }}
+                                        <label class="form-check-label" for="defaultCheck1"></label><br />
                                     </div>
                                 @endif
                             @endforeach
+                            <form class="theme-form" id="addchecklist" action="">
+                                <input type="text" class="demo-demo" name="checklist" id="textInput" value="" hidden/>
+                                <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
+                            </form>
                             @endif
                         </div>
                         <h4>
                             <form class="theme-form" id="commentform" action="">
                                 <span class="name-title"> Activets </span>
                                 <input type="text" class="form-control description-comment" name="comment" id="comment" placeholder="Write a Comment">
-                                <input type="submit" value="Save" class="menu-menu" style="display: none;" name="submit" id="submit">
+                                <input type="submit" value="Save" class="menu-menu btn btn-success" style="display: none;" name="submit" id="submit">
                                 <button type="button" class="menu-menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                             </form>
                         </h4>
@@ -106,7 +106,7 @@
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#dates"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text dates">Dates</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text label">Labels</span></a>
+                            </span><span class="js-sidebar-action-text dates">Labels</span></a>
                             <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text Carts">Carts</span></a>
                             <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
@@ -127,8 +127,8 @@
                     <form class="theme-form" id="dateform" action="">
                         <label for="start">Start date:</label>
                         <input type="date" id="start" name="start">
-                        <input type="submit" value="Save" name="submit" id="submit">
-1                    </form>
+                        <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
+                  </form>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
                     <h4 class="modal-title">All Members</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="theme-form" id="checklistform" action="">
+                    <form class="theme-form" id="checklists" action="">
                         @foreach($user as $key => $value)
                         <div class="members-model">
                                 {{ $value->name }} ({{ $value->email }})
@@ -167,7 +167,7 @@
                     <form class="theme-form" id="checklistform" action="">
                         <p>Title</p>
                         <input type="text" class="form-control" name="checklist" id="check" value="">
-                        <input type="submit" value="Save" name="submit" id="submit">
+                        <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                     </form>
                 </div>
             </div>
@@ -187,7 +187,7 @@
                         <p>Attachment</p>
                         <input type="file" name="select_file" id="select_file" value="">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="submit" name="upload" id="submit" class="btn btn-primary" value="Upload">
+                        <input type="submit" class="btn btn-success" name="upload" id="submit" value="Upload">
                     </div>
                 </form>
             </div>
@@ -205,7 +205,7 @@
                     <p>Title</p>
                     <form class="theme-form" id="lablefrom" action="">
                         <input type="text" class="form-control" name="label" id="labe" value=""></br>
-                        <input type="submit" value="Save" name="submit" id="submit">
+                        <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                     </form>
                 </div>
             </div>
@@ -222,7 +222,7 @@
                 </div>
                 <div class="modal-body">
                     <p> Deleting an attachment is permanent. There is no undo.</p>
-                        <button class="deleteRecord" data-id="{{ $value->id }}" >Delete Record</button>
+                        <button type="button" class="btn btn-primary deleteRecord" data-id="130" >Delete Record</button>
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 // Home Page //
 // Route::get('/', 'HomeController@index')->name('home');
 Route::get('/', function(){ return view('welcome'); });
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
 // Login And Register //

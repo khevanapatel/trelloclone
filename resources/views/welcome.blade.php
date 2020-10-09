@@ -1,6 +1,4 @@
 @extends('layouts.app')
-@section('layouts.header')
-@endsection
 @section('style')
    <style>
    </style>

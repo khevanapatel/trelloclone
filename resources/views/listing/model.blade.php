@@ -14,24 +14,37 @@
                             @if ($file->label == '')
                             @else
                                 <div class="labels-labes">
-                                    <h4>label</h4>
+                                    <h5>LABEL</h5>
                                     <span class="labels">{{ $file->label }} </span>
                                 </div>
                             @endif
+                            @if($file->date == '')
+                            @else
+                            <div class="dates-date">
+                                <h5>DUE DATE</h5>
+                                <div class="date-color">
+                                    <input class="form-check-input" type="checkbox" name="checkbox" id="default">
+                                    <span class="date">{{date('D d, Y', strtotime(@$file->date))}}</span>
+                                </div>
+                            </div>
+                            @endif
                         @endforeach
-                        <h4>
-                            <form class="theme-form" id="descriptionform" action="">
-                                <span class="name-title">Description</span>
-                                <input type="text" class="form-control description-comment" name="description" id="show"
-                                    value="" placeholder="Description">
-                                <input type="submit" value="Save" name="submit" id="submit" class="menu"
-                                style="display: none;">
-                                <button type="button" class="menu" style="display: none;"><i class="fa fa-times"
-                                        aria-hidden="true"></i></button>
-                            </form>
-                        </h4>
+                        <div class="description">
+                            <h4>
+                                <form class="theme-form" id="descriptionform" action="">
+                                    <span class="name-title">Description</span>
+                                    <input type="text" class="form-control description-comment" name="description" id="show"
+                                        value="" placeholder="Description">
+                                    <input type="submit" value="Save" name="submit" id="submit" class="menu"
+                                    style="display: none;">
+                                    <button type="button" class="menu" style="display: none;"><i class="fa fa-times"
+                                            aria-hidden="true"></i></button>
+                                </form>
+                            </h4>
+                        </div>
 
                         <div class="attachment">
+                            @foreach ($files as $file)
                             @if($file->select_file == null)
                             @else
                                 <h4>Attachment</h4>
@@ -47,6 +60,7 @@
                                     @endif
                                 @endforeach
                             @endif
+                            @endforeach
                         </div>
 
                         <div class="checklist">
@@ -86,22 +100,21 @@
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#members"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text members">Members</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#checklist"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">Checklist</span></a>
+                                </span><span class="js-sidebar-action-text checklist">Checklist</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#attachment"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">Attachment</span></a>
+                                </span><span class="js-sidebar-action-text attachment">Attachment</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#dates"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">Dates</span></a>
+                                </span><span class="js-sidebar-action-text dates">Dates</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">Labels</span></a>
+                                </span><span class="js-sidebar-action-text label">Labels</span></a>
                             <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">Carts</span></a>
+                                </span><span class="js-sidebar-action-text Carts">Carts</span></a>
                             <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
-                                </span><span class="js-sidebar-action-text">All Carts</span></a>
+                                </span><span class="js-sidebar-action-text All">All Carts</span></a>
                         </div>
                     </div>
             </div>
         </div>
-
 
     <div class="modal fade dates" id="dates" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -111,8 +124,11 @@
                     <h4 class="modal-title">Date</h4>
                 </div>
                 <div class="modal-body">
-                    <label for="start">Start date:</label>
-                    <input type="date" id="start" name="start">
+                    <form class="theme-form" id="dateform" action="">
+                        <label for="start">Start date:</label>
+                        <input type="date" id="start" name="start">
+                        <input type="submit" value="Save" name="submit" id="submit">
+1                    </form>
                 </div>
             </div>
         </div>
@@ -138,6 +154,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal fade checklist" id="checklist" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -177,7 +194,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="labels" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -206,7 +222,7 @@
                 </div>
                 <div class="modal-body">
                     <p> Deleting an attachment is permanent. There is no undo.</p>
-                        <button class="deleteRecord" data-id="{{ 91 }}" >Delete Record</button>
+                        <button class="deleteRecord" data-id="{{ $value->id }}" >Delete Record</button>
                 </div>
             </div>
         </div>

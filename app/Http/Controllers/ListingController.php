@@ -24,9 +24,10 @@ class ListingController extends Controller
     // Display all Data //
     public function index(Request $request)
     {
+
         $listings = Listing::with('cards')->where('user_id',Auth::user()->id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
-        $files = Cartpop::get();
+        $files = Cartpop::where('card_id',24)->get();
         $user = User::get();
         return view('listing/index',['listings'=>$listings ,'files'=>$files,'carts'=>$carts, 'user'=>$user]);
     }
@@ -97,18 +98,14 @@ class ListingController extends Controller
     public function storedata(Request $request)
     {
 
-        //return $request->all();
+        // return $request->all();
         $file= new Cartpop();
         $file->description = $request->show;
         $file->comment     = $request->comment;
         $file->checklist   = $request->checklist;
         $file->label       = $request->label;
         $file->card_id     = $request->id;
-
-        // $image = $request->file('select_file');
-        // $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        // $image->move(public_path('files'), $new_name);
-        // $file->select_file = $new_name;
+        $file->date        = $request->start;
         $file->save();
         return 123;
     }
@@ -128,6 +125,7 @@ class ListingController extends Controller
             $image->move(public_path('files'), $new_name);
             $files->select_file = $new_name;
             $files->save();
+
             return response()->json([
             'message'   => 'Image Upload Successfully',
             'uploaded_image' => '<img src="/images/'.$new_name.'" class="img-thumbnail" width="300" />',
@@ -137,7 +135,7 @@ class ListingController extends Controller
 
     public function deletefiles($id){
 
-        $listing = Cartpop::find($id);
+    return  $listing = Cartpop::find($id);
         $listing->delete();
         return redirect()->route('carts');
     }

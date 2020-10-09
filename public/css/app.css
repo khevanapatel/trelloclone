@@ -17,7 +17,7 @@ span.labels {
 }
 
 .labels-labes {
-    padding-left: 24%;
+    padding-left: 5%;
 }
 
 input#show {
@@ -152,6 +152,74 @@ img.img-fluid.lazyload.product-img {
     margin-bottom: 30px;
 }
 h4.Please {
+    text-align: center;
+}
+
+.dates-date {
+    margin-left: 23%;
+    margin-top: -8%;
+    margin-bottom: 5%;
+}
+.description {
+    margin-bottom: 4%;
+}
+.checklist {
+    margin-bottom: 3%;
+}
+span.date {
+    border: 1px solid #f0ecec;
+    padding: 5px;
+    background-color: #f0ecec;
+}
+span.js-sidebar-action-text.members
+{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.checklist
+{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.attachment{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.dates{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.label{
+    border: 1px solid #eaecf0;
+    padding: 11px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.Carts{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+span.js-sidebar-action-text.All{
+    border: 1px solid #eaecf0;
+    padding: 5px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
     text-align: center;
 }
 

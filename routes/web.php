@@ -24,7 +24,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Auth::routes();
 
 // Listing Controller //
-Route::get('/cart','ListingController@index')->name('carts');
+Route::any('/cart','ListingController@index')->name('carts');
 Route::get('/new','ListingController@new')->name('new');
 Route::post('/listings','ListingController@store')->name('listings');
 Route::get('/listingsedit/{listing_id}', 'ListingController@edit')->name('listingsedit');

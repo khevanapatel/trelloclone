@@ -7,6 +7,7 @@
             </li>
             <li>
                 <ul class="header_menu_inner">
+
                     <li>
                         <a class="nav-link" href="{{ route('carts') }}">Cart</a>　　
                     </li>

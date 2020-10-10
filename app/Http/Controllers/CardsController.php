@@ -38,7 +38,7 @@ class CardsController extends Controller
         $cards->memo = $request->card_memo;
 
         $cards->save();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     // Display Card //

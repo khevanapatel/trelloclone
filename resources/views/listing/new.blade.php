@@ -6,6 +6,7 @@
         {{--Listing Form--}}
         <form action="{{url('listings')}}" method="POST" class="form-horizontal">
             {{csrf_field()}}
+            <input type="hidden" name="board_id" id="board_id" value="">
             <div class="form-group">
                 <label for="listing" class="col-sm-3 control-label">List name</label>
                 <div class="col-sm-6">

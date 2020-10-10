@@ -26,6 +26,27 @@
 @endsection
 
 @section('content')
+
+
+    <form action="{{url('listings')}}" method="POST" class="form-horizontal">
+        <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
+        {{csrf_field()}}
+        <div class="form-group">
+            <label for="listing" class="col-sm-3 control-label">List name</label>
+            <div class="col-sm-6">
+                <input type="text" name="list_name" class="form-control" value="{{old('list_name')}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button type="submit" class="btn btn-default">
+                    <i class="glyphicon glyphicon-plus"></i>Create
+                </button>
+            </div>
+        </div>
+    </form>
+
+
     <div class="topPage">
         <div class="listWrapper">
             @foreach ($listings as $listing)
@@ -84,6 +105,10 @@
         }
       }
 
+      function addPost() {
+        $("#post_id").val('');
+        $('#post-modal').modal('show');
+      }
 
         $(document).ready(function() {
             $(":checkbox").click(countChecked);
@@ -118,18 +143,23 @@
 
 
         $(".cardWrappers").click(function() {
-            var id = $(this).attr('cart_id');
+            var cilckid = $(this).attr('cart_id');
 
             $.ajax({
-                url: "cart",
+                url: "{{ Route('get/model') }}",
                 method: "post",
                 data: {
                     '_token': "{{ csrf_token() }}",
-                    'id': id,
+                    'cilckid': cilckid,
 
                 },
-                success: function(data) {
-                    console.log('success');
+                success: function(response) {
+                    console.log(response);
+                    if(response) {
+                        $("#labes").val(response.label);
+                        $("#checklist").val(response.checklist);
+                        $("#select_file").val(response.select_file);
+                      }
                 }
 
             });
@@ -141,6 +171,7 @@
                 $.ajax({
                     url: "update/files",
                     method: "post",
+                    dataType:'json',
                     data: {
                         '_token': "{{ csrf_token() }}",
                         'show': show,

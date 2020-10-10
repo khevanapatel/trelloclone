@@ -25,7 +25,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Auth::routes();
 
 // Listing Controller //
-Route::any('/cart','ListingController@index')->name('carts');
+Route::any('/cart/{id}','ListingController@index')->name('carts/');
+Route::post('/get/model','ListingController@getmodel')->name('get/model');
 Route::get('/new','ListingController@new')->name('new');
 Route::post('/listings','ListingController@store')->name('listings');
 Route::get('/listingsedit/{listing_id}', 'ListingController@edit')->name('listingsedit');
@@ -44,6 +45,10 @@ Route::get('listing/{listing_id}/card/{card_id}', 'CardsController@show')->name(
 Route::get('listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing/listingid/card/cardid');
 Route::post('/card/edit', 'CardsController@update')->name('card/edit');
 Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destroy')->name('delete');
+
+// Board Controller //
+Route::get('boards','BoardControllers@index')->name('boards');
+Route::post('boards/add','BoardControllers@boardstore')->name('boards/add');
 
 
 

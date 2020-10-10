@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
 use App\Listing;
 use App\Cartpop;
 use App\Card;
 use App\Models\User;
+use App\Models\Board;
 
 
 // use Validator;
@@ -22,14 +24,15 @@ class ListingController extends Controller
     }
 
     // Display all Data //
-    public function index(Request $request)
+    public function index(Request $request,$id)
     {
 
-        $listings = Listing::with('cards')->where('user_id',Auth::user()->id)->orderBy('created_at','asc')->get();
+        $lists = Board::where('id',$id)->first();
+        $listings = Listing::where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
-        $files = Cartpop::get();
+        $files = Cartpop::where('card_id',$request->cilckid)->get();
         $user = User::get();
-        return view('listing/index',['listings'=>$listings ,'files'=>$files,'carts'=>$carts, 'user'=>$user]);
+        return view('listing/index',compact('listings' ,'files','carts', 'user','lists'));
     }
 
     // create Boards //
@@ -57,11 +60,12 @@ class ListingController extends Controller
         }
 
         $listing = new Listing;
-        $listing->title = $request->list_name;
+        $listing->title    = $request->list_name;
+        $listing->board_id = $request->board_id;
 
         $listing->user_id = Auth::user()->id;
         $listing->save();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     // Edit List //
@@ -83,7 +87,7 @@ class ListingController extends Controller
         $listing = Listing::find($request->id);
         $listing->title = $request->list_name;
         $listing->save();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     // Delete Listing //
@@ -140,4 +144,11 @@ class ListingController extends Controller
         return redirect()->route('carts');
     }
 
+    public function getmodel(Request $request)
+    {
+
+      $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
+       return response()->json(['success'=>$cartfile]);
+
+    }
 }

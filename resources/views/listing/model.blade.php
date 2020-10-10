@@ -1,5 +1,5 @@
 
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="myModal" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -9,16 +9,10 @@
                         </button>
                     </div>
                     <div class="col-md-10">
-                        @foreach ($files as $file)
-                            @if(@$file->label == null)
-                            @else
                                 <div class="labels-labes">
                                     <h5>LABEL</h5>
-                                    <span class="labels">{{ $file->label }} </span>
+                                    <span class="labels" id="labes"></span>
                                 </div>
-                            @endif
-                            @if(@$file->date == null)
-                            @else
                             <div class="dates-date">
                                 <h5>DUE DATE</h5>
                                 <div class="date-color">
@@ -26,8 +20,7 @@
                                     <span class="date">{{date('D d, Y', strtotime(@$file->date))}}</span>
                                 </div>
                             </div>
-                            @endif
-                        @endforeach
+
                         <div class="description">
                             <h4>
                                 <form class="theme-form" id="descriptionform" action="">
@@ -61,7 +54,9 @@
                         </div>
 
                         <div class="checklist">
-                            @if(@$file->checklist == '')
+                            @foreach ($files as $file)
+                            @if($file->checklist)
+                            sdsfsfd
                             @else
                             <h4>Checklist</h4>
                             <div class="progressbar-container">
@@ -83,6 +78,7 @@
                                 <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                             </form>
                             @endif
+                            @endforeach
                         </div>
                         <h4>
                             <form class="theme-form" id="commentform" action="">

@@ -10,4 +10,9 @@ class Listing extends Model
     {
         return $this->hasMany('App\Card');
     }
+
+    public function board()
+    {
+        return $this->hasMany('App\Models\Board','id', 'board_id');
+    }
 }

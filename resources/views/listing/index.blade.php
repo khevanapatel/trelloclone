@@ -1,33 +1,15 @@
 @extends('layouts.app')
 @section('style')
     <style type="text/css">
-        input#check {
-            margin-bottom: 15px;
+        .add-list {
+            padding: 20px;
         }
-        input#comment {
-            margin-bottom: 10px;
-        }
-        input#textInput {
-            border: 1px solid #ccc;
-            width: 100%;
-            height: 40px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        input#defaultCheck1 {
-            margin-bottom: 2%;
-        }
-        .ui-widget-header{
-            background: #5cb85c !important;
-
-        }
-
     </style>
 @endsection
 
 @section('content')
 
-
+    <div class="add-list">
     <form action="{{url('listings')}}" method="POST" class="form-horizontal">
         <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
         {{csrf_field()}}
@@ -45,7 +27,7 @@
             </div>
         </div>
     </form>
-
+    </div>
 
     <div class="topPage">
         <div class="listWrapper">
@@ -59,7 +41,6 @@
                             <a href="{{ url('/listingsedit', $listing->id) }}"><i class="fas fa-pen"></i></a>
                         </div>
                     </div>
-
                     <div class="cardWrapper">
                         @foreach ($listing->cards as $card)
                             <div class="cardDetail_link">
@@ -67,7 +48,7 @@
                                     <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
                                         <h3 class="card_title">{{ $card->title }}</h3>
                                         <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
-                                        <div class="card_detail is-exist left"><a class="cardDetail_link"href="listing/{{ $listing->id }}/card/{{ $card->id }}"><i class="fas fa-pen"></i></a></div>
+                                        <div class="card_detail is-exist left"><a class="cardDetail_link" href="/listing/{{$listing->id}}/card/{{$card->id}}/edit"><i class="fas fa-pen"></i></a></div>
                                     </a>
                                 </div>
                             </div>
@@ -144,6 +125,7 @@
 
         $(".cardWrappers").click(function() {
             var cilckid = $(this).attr('cart_id');
+            var id = $(this).attr('cart_id');
 
             $.ajax({
                 url: "{{ Route('get/model') }}",
@@ -154,11 +136,14 @@
 
                 },
                 success: function(response) {
-                    console.log(response);
-                    if(response) {
-                        $("#labes").val(response.label);
-                        $("#checklist").val(response.checklist);
-                        $("#select_file").val(response.select_file);
+                    console.log(response.success);
+                    if(response.success) {
+                        $(".label").html(response.div);
+                        $(".date").html(response.date);
+                        $("#show").val(response.descr);
+                        $(".image").html(response.img);
+                        $(".check").html(response.checklist);
+                        $("#comment").val(response.comment);
                       }
                 }
 
@@ -169,7 +154,7 @@
                 var show = $("#show").val();
 
                 $.ajax({
-                    url: "update/files",
+                    url: "{{ Route('update/files') }}",
                     method: "post",
                     dataType:'json',
                     data: {
@@ -190,7 +175,7 @@
                 var textInput = $("#textInput").val();
 
                 $.ajax({
-                    url: "update/files",
+                    url:"{{ Route('update/files') }}",
                     method: "post",
                     data: {
                         '_token': "{{ csrf_token() }}",
@@ -211,7 +196,7 @@
                 var checklist = $('#check').val();
 
                 $.ajax({
-                    url:"update/files",
+                    url:"{{ route('update/files') }}",
                     method:"post",
                     data:{
                         '_token': "{{ csrf_token() }}",
@@ -229,7 +214,7 @@
                 event.preventDefault();
                 var label = $('#labe').val();
                 $.ajax({
-                    url:"update/files",
+                    url:"{{ route('update/files') }}",
                     method:"post",
                     data:{
                         '_token':"{{ csrf_token() }}",
@@ -248,7 +233,7 @@
                 var start = $('#start').val();
 
                 $.ajax({
-                    url:"update/files",
+                    url:"{{ route('update/files') }}",
                     method:"post",
                     data:{
                         '_token': "{{ csrf_token() }}",
@@ -307,7 +292,7 @@
                     var comment = $('#comment').val();
 
                     $.ajax({
-                        url: "update/files",
+                        url: "{{ route('update/files') }}",
                         method: "post",
                         data: {
                             '_token': "{{ csrf_token() }}",

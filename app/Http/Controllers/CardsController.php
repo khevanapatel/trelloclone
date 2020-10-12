@@ -76,7 +76,7 @@ class CardsController extends Controller
         $card->memo = $request->card_memo;
         $card->listing_id = $request->listing_id;
         $card->save();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     // Delete Cards //

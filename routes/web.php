@@ -35,14 +35,13 @@ Route::get('/listingsdelete/{listing_id}', 'ListingController@destroy');
 Route::get('update/items','ListingController@updateItems')->name('update/items');
 Route::post('update/files','ListingController@storedata')->name('update/files');
 Route::post('files/upload','ListingController@storefiles')->name('files/upload');
-Route::get('board','ListingController@board')->name('board');
 Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete/files');
 
 // Carts Controller //
 Route::get('listing/{listing_id}/card/new', 'CardsController@new')->name('new/card');
 Route::post('/listing/{listing_id}/card', 'CardsController@store')->name('listing/card');
 Route::get('listing/{listing_id}/card/{card_id}', 'CardsController@show')->name('listing/listingid/card/cardid/edit');
-Route::get('listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing/listingid/card/cardid');
+Route::get('/listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing/listingid/card/cardid');
 Route::post('/card/edit', 'CardsController@update')->name('card/edit');
 Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destroy')->name('delete');
 

@@ -10,6 +10,7 @@ use App\Listing;
 use App\Cartpop;
 use App\Card;
 use App\Models\User;
+use Illuminate\Support\Facades\Carbon;
 use App\Models\Board;
 
 
@@ -33,13 +34,6 @@ class ListingController extends Controller
         $files = Cartpop::where('card_id',$request->cilckid)->get();
         $user = User::get();
         return view('listing/index',compact('listings' ,'files','carts', 'user','lists'));
-    }
-
-    // create Boards //
-    public function board()
-    {
-        $listinghome = Listing::where('user_id',Auth::user()->id)->get();
-        return view('listing/board',['listinghome'=>$listinghome]);
     }
 
     public function new()
@@ -95,7 +89,7 @@ class ListingController extends Controller
     {
         $listing = Listing::find($listing_id);
         $listing->delete();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     // Store Data //
@@ -120,7 +114,7 @@ class ListingController extends Controller
     public function storefiles(Request $request)
     {
 
-        // return $request->all();
+        return $request->all();
         $files = new Cartpop();
         $files->card_id = $request->cart_id;
 
@@ -141,14 +135,52 @@ class ListingController extends Controller
 
         $listing = Cartpop::find($id);
         $listing->delete();
-        return redirect()->route('carts');
+        return redirect()->back();
     }
 
     public function getmodel(Request $request)
     {
 
-      $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
-       return response()->json(['success'=>$cartfile]);
+       $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
+
+       $div = '';
+       foreach($cartfile as $file){
+
+                $div.='<span class="labels" id="labes">'.$file->label.'</span>';
+
+        }
+       $date = '';
+       foreach($cartfile as $file)
+       {
+            $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
+                <span class="date">'.date('d F Y', strtotime($file->date)).'</span>';
+       }
+
+       foreach($cartfile as $file)
+       {
+            $descr = $file->description;
+            $comment = $file->comment;
+       }
+       $img ='';
+
+            foreach($cartfile as $file)
+            {
+                $img .= '<h4>Attachment</h4>
+                <img src="'.asset('files/'.$file->select_file).'" class="img-fluid  lazyload product-img">
+                <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
+            }
+
+
+       $checklist = '';
+           foreach($cartfile as $file)
+            {
+                $checklist .= '
+                <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+                <span id="checklist">'.$file->checklist.'</span>
+                <label class="form-check-label" for="defaultCheck1"></label><br />';
+            }
+
+        return response()->json(['success'=>$div,'date'=>$date,'descr'=>$descr,'img'=>$img,'checklist'=>$checklist,'comment'=>$comment]);
 
     }
 }

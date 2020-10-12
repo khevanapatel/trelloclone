@@ -9,15 +9,15 @@
                         </button>
                     </div>
                     <div class="col-md-10">
-                                <div class="labels-labes">
-                                    <h5>LABEL</h5>
+                                <h5>LABEL</h5>
+                                <div class="labels-labes label">
                                     <span class="labels" id="labes"></span>
                                 </div>
                             <div class="dates-date">
                                 <h5>DUE DATE</h5>
-                                <div class="date-color">
-                                    <input class="form-check-input" type="checkbox" name="checkbox" id="default">
-                                    <span class="date">{{date('D d, Y', strtotime(@$file->date))}}</span>
+                                <div class="date-color date">
+                                    {{--  <input class="form-check-input" type="checkbox" name="checkbox" id="default">
+                                    <span class="date">{{date('D d, Y', strtotime(@$file->date))}}</span>  --}}
                                 </div>
                             </div>
 
@@ -34,56 +34,25 @@
                         </div>
 
                         <div class="attachment">
-                            @foreach ($files as $file)
-                                @if($file->select_file == null)
-                                @else
-                                    <h4>Attachment</h4>
-                                    @foreach ($files as $file)
-                                        @if($file->select_file == null)
-                                        @else
-                                            <div class="images">
-                                                <div class="center-image">
-                                                    <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
-                                                    <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
+                            <div class="images">
+                                <div class="center-image image">
+                                    {{--  <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
+                                    <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>  --}}
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="checklist">
-                            @foreach ($files as $file)
-                            @if($file->checklist)
-                            sdsfsfd
-                            @else
-                            <h4>Checklist</h4>
-                            <div class="progressbar-container">
-                                <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
-                                <span><div class="progressbar-label"></div></span>
-                            </div>
-                            @foreach ($files as $file)
-                                @if($file->checklist == '')
-                                @else
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
-                                        {{ $file->checklist }}
-                                        <label class="form-check-label" for="defaultCheck1"></label><br />
-                                    </div>
-                                @endif
-                            @endforeach
-                            <form class="theme-form" id="addchecklist" action="">
-                                <input type="text" class="demo-demo" name="checklist" id="textInput" value="" hidden/>
-                                <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
-                            </form>
-                            @endif
-                            @endforeach
+                        <div class="checklist check"></div>
+                        <div class="add-checklist">
+                                <form class="theme-form" id="addchecklist" action="">
+                                    <input type="text" class="demo-demo" name="checklist" id="textInput" value="" hidden/>
+                                    <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
+                                </form>
                         </div>
                         <h4>
                             <form class="theme-form" id="commentform" action="">
                                 <span class="name-title"> Activets </span>
-                                <input type="text" class="form-control description-comment" name="comment" id="comment" placeholder="Write a Comment">
+                                <input type="text" class="form-control description-comment" name="comment" id="comment" value="" placeholder="Write a Comment">
                                 <input type="submit" value="Save" class="menu-menu btn btn-success" style="display: none;" name="submit" id="submit">
                                 <button type="button" class="menu-menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                             </form>

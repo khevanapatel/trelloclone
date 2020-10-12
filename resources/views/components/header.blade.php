@@ -3,6 +3,7 @@
     <nav class="nav">
         <ul class="header_menu">
             <li class="nav-link">{{Auth::user()->name }}</li>
+            <li class="nav-links"><a class="nav-link listNew" href="{{Route('boards') }}">Board</a></li>
             <li class="header_menu_title">
                 <a class="nav-link listNew" href="/">Laravel Trello New</a>
             </li>

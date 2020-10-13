@@ -29,7 +29,7 @@ class ListingController extends Controller
     {
 
         $lists = Board::where('id',$id)->first();
-        $listings = Listing::where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
+        $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
         $files = Cartpop::where('card_id',$request->cilckid)->get();
         $user = User::get();
@@ -102,8 +102,8 @@ class ListingController extends Controller
         $file->comment     = $request->comment;
         $file->checklist   = $request->textInput;
         $file->label       = $request->label;
-        $file->card_id     = $request->id;
         $file->date        = $request->start;
+        $file->card_id     = $request->id;
         $file->save();
         return 123;
     }
@@ -179,7 +179,6 @@ class ListingController extends Controller
                 <span id="checklist">'.$file->checklist.'</span>
                 <label class="form-check-label" for="defaultCheck1"></label><br />';
             }
-
         return response()->json(['success'=>$div,'date'=>$date,'descr'=>$descr,'img'=>$img,'checklist'=>$checklist,'comment'=>$comment]);
 
     }

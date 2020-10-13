@@ -8,28 +8,24 @@
 @endsection
 
 @section('content')
-
-    <div class="add-list">
-    <form action="{{url('listings')}}" method="POST" class="form-horizontal">
-        <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
-        {{csrf_field()}}
-        <div class="form-group">
-            <label for="listing" class="col-sm-3 control-label">List name</label>
-            <div class="col-sm-6">
-                <input type="text" name="list_name" class="form-control" value="{{old('list_name')}}">
+    <div class="topPage" style="background-color:{{ $lists->image }};">
+        <form action="{{url('listings')}}" method="POST" class="form-horizontal">
+            <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
+            {{csrf_field()}}
+            <div class="form-group">
+                <label for="listing" class="col-sm-3 control-label">List name</label>
+                <div class="col-sm-6">
+                    <input type="text" name="list_name" class="form-control" value="{{old('list_name')}}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-6">
-                <button type="submit" class="btn btn-default">
-                    <i class="glyphicon glyphicon-plus"></i>Create
-                </button>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="submit" class="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"></i>Create
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-    </div>
-
-    <div class="topPage">
+        </form>
         <div class="listWrapper">
             @foreach ($listings as $listing)
                 <div class="list">

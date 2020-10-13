@@ -26,8 +26,10 @@ class BoardControllers extends Controller
                 ->withErrors($validator->errors())->withInput();
         }
 
+        // return $request->all();
         $board = new Board;
         $board->title = $request->board;
+        $board->image = $request->grayButton;
         $board->user_id = Auth::user()->id;
         $board->save();
         return redirect()->route('boards');

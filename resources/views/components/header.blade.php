@@ -36,11 +36,20 @@
             <div class="modal-body">
                 <form action="{{url('boards/add')}}" method="POST" class="form-horizontal">
                     {{csrf_field()}}
-                        <label for="listing" class="control-label">List name</label>
-                        <input type="text" name="board" class="form-control" value="{{old('board')}}">
+                        <label for="listing" class="control-label"> List Name</label>
+                        <input type="text" name="board" class="form-control board-color" value="{{old('board')}}">
+                        <label for="listing" class="control-label"> Color </label>
+                        <div id="switcher">
+                            <input type="checkbox" name="grayButton"  class="form-control gry"/>
+                            <input type="checkbox" value="#ffff00" name="grayButton"  class="form-control Yellow"/>
+                            <input type="checkbox" value="#ffffff" name="grayButton"  class="form-control blue"/>
+                            <input type="checkbox" value="#0000ff" name="grayButton"  class="form-control white"/>
+                            <input type="checkbox" value="#ff0000" name="grayButton"  class="form-control red"/>
+                        </div>
                         <button type="submit" class="btn btn-default button-create"><i class="glyphicon glyphicon-plus"></i>Create Borad</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+

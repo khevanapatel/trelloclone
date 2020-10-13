@@ -26,12 +26,12 @@
 @section('content')
 <div class="form-group">
     <div class="text-text">
-        <p> Plase choose Your Board </p>
+        <p> Please choose Your Board </p>
     </div>
     <div class="col-sm-offset-3 col-sm-6">
         @foreach($board as $key => $value)
             <a href="{{ url('cart/'.$value->id) }}">
-            <div class="col-sm-2 tile-box">
+            <div class="col-sm-2 tile-box" style="background-color:{{ $value->image }}; " >
                 <span>{{ $value->title }}</span>
             </div>
             </a>

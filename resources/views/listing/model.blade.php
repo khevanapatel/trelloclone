@@ -1,4 +1,3 @@
-
 <div id="myModal" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -9,15 +8,12 @@
                         </button>
                     </div>
                     <div class="col-md-10">
-                                <h5>LABEL</h5>
-                                <div class="labels-labes label">
-                                    <span class="labels" id="labes"></span>
-                                </div>
+                            <h5>LABEL</h5>
+                            <div class="textlbel">
+                            </div>
                             <div class="dates-date">
                                 <h5>DUE DATE</h5>
                                 <div class="date-color date">
-                                    {{--  <input class="form-check-input" type="checkbox" name="checkbox" id="default">
-                                    <span class="date">{{date('D d, Y', strtotime(@$file->date))}}</span>  --}}
                                 </div>
                             </div>
 
@@ -35,17 +31,22 @@
 
                         <div class="attachment">
                             <div class="images">
+                                <h4>Attachment</h4>
                                 <div class="center-image image">
-                                    {{--  <img src="{{ URL::asset('/files') }}/{{ @$file->select_file }}" class="img-fluid  lazyload product-img">
-                                    <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>  --}}
                                 </div>
                             </div>
                         </div>
-
-                        <div class="checklist check"></div>
+                            <h4> Checklist </h4>
+                            <div class="progressbar-container">
+                                <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow=""><div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div></div>
+                                <span><div class="progressbar-label"></div></span>
+                        </div>
+                        <div class="checklist-checklist">
+                            <span class="checklist check"></span>
+                        </div>
                         <div class="add-checklist">
                                 <form class="theme-form" id="addchecklist" action="">
-                                    <input type="text" class="demo-demo" name="checklist" id="textInput" value="" hidden/>
+                                    <input type="text"  class="demo-demo" name="checklist" id="textInput" value="" hidden/>
                                     <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                                 </form>
                         </div>
@@ -59,9 +60,9 @@
                         </h4>
                     </div>
 
+                    <p class="addtocart"> Add to Cart </p>
                     <div class="row">
                         <div class="col-md-2 ml-auto">
-                            <p class="addtocart"> Add to Cart </p>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#members"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text members">Members</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#checklist"><span class="icon-sm icon-member">
@@ -177,7 +178,7 @@
         </div>
     </div>
 
-    @foreach($files as $value)
+
     <div class="modal fade checklist" id="deletedoc" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -192,4 +193,4 @@
             </div>
         </div>
     </div>
-    @endforeach
+

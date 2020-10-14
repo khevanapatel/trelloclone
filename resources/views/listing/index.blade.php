@@ -105,7 +105,7 @@
             console.log(percentage);
             $('.progressbar-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);
 
-            //$(".progressbar-label").text(percentage + "%");
+            $(".progressbar-label").text(percentage + "%");
             }
             countBoxes();
             $(":checkbox").click(countBoxes);
@@ -132,14 +132,14 @@
 
                 },
                 success: function(response) {
-                    console.log(response.success);
                     if(response.success) {
-                        $(".label").html(response.div);
+                        $(".labes").html(response.div);
                         $(".date").html(response.date);
                         $("#show").val(response.descr);
                         $(".image").html(response.img);
                         $(".check").html(response.checklist);
                         $("#comment").val(response.comment);
+                        $(".textlbel").html(response.di);
                       }
                 }
 
@@ -224,23 +224,23 @@
             });
 
 
-            $('#dateform').on('submit',function(event){
-                event.preventDefault();
-                var start = $('#start').val();
+                $('#dateform').on('submit',function(event){
+                    event.preventDefault();
+                    var start = $('#start').val();
 
-                $.ajax({
-                    url:"{{ route('update/files') }}",
-                    method:"post",
-                    data:{
-                        '_token': "{{ csrf_token() }}",
-                        'id':id,
-                        'start':start,
-                    },
-                    success:function(response){
-                        console.log('success');
-                    }
+                    $.ajax({
+                        url:"{{ route('update/files') }}",
+                        method:"post",
+                        data:{
+                            '_token': "{{ csrf_token() }}",
+                            'id':id,
+                            'start':start,
+                        },
+                        success:function(response){
+                            console.log('success');
+                        }
+                    });
                 });
-            });
 
 
             $('#upload_form').on('submit', function(event) {
@@ -285,7 +285,7 @@
                 $('#commentform').on('submit', function(event) {
                     event.preventDefault();
 
-                    var comment = $('#comment').val();
+                    var comment = $('#comments').val();
 
                     $.ajax({
                         url: "{{ route('update/files') }}",

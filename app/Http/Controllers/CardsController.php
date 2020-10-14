@@ -60,6 +60,7 @@ class CardsController extends Controller
         return view('card/edit', ['listings' => $listings, 'listing' => $listing, 'card' => $card]);
     }
 
+
     // Update Cards //
     public function update(Request $request)
     {

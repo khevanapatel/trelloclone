@@ -31,9 +31,8 @@ class ListingController extends Controller
         $lists = Board::where('id',$id)->first();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
-        $files = Cartpop::where('card_id',$request->cilckid)->get();
         $user = User::get();
-        return view('listing/index',compact('listings' ,'files','carts', 'user','lists'));
+        return view('listing/index',compact('listings','carts','user','lists'));
     }
 
     public function new()
@@ -114,7 +113,7 @@ class ListingController extends Controller
     public function storefiles(Request $request)
     {
 
-        return $request->all();
+        // return $request->all();
         $files = new Cartpop();
         $files->card_id = $request->cart_id;
 
@@ -141,45 +140,70 @@ class ListingController extends Controller
     public function getmodel(Request $request)
     {
 
-       $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
+        $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
 
-       $div = '';
+        // foreach($cartfile as $file)
+        // {
+        //  return   $filess = $file->label;
+        // }
+       $div =    '';
+       $di = '';
        foreach($cartfile as $file){
+            if($file->label == ''){
 
-                $div.='<span class="labels" id="labes">'.$file->label.'</span>';
-
+            }else{
+                  $div.='<span class="labels">'.$file->label.'</span>';
+                  $di.='<span class="labels">'.$file->label.'</span>';
+            }
         }
+
        $date = '';
        foreach($cartfile as $file)
        {
-            $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
-                <span class="date">'.date('d F Y', strtotime($file->date)).'</span>';
-       }
+            if($file->date == ''){
 
+            }else{
+                $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
+                <span class="date">'.date('d F Y', strtotime(@$file->date)).'</span>';
+           }
+        }
+
+       $descr = '';
+       $comment = '';
        foreach($cartfile as $file)
        {
-            $descr = $file->description;
-            $comment = $file->comment;
-       }
-       $img ='';
+            if($file->comment == '' && $file->description == '') {
 
-            foreach($cartfile as $file)
-            {
-                $img .= '<h4>Attachment</h4>
-                <img src="'.asset('files/'.$file->select_file).'" class="img-fluid  lazyload product-img">
-                <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
+            }else{
+                $descr =   @$file->description;
+                $comment = @$file->comment;
+                $labe =    @$file->label;
             }
+        }
+       $img ='';
+        foreach($cartfile as $file)
+        {
+            if($file->select_file == '') {
+
+            }else{
+                $img .= '<img src="'.asset('files/'.@$file->select_file).'" class="img-fluid  lazyload product-img">
+                         <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
+            }
+        }
 
 
        $checklist = '';
-           foreach($cartfile as $file)
-            {
-                $checklist .= '
-                <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
-                <span id="checklist">'.$file->checklist.'</span>
+        foreach($cartfile as $file){
+        if($file->checklist == '') {
+
+        }else
+        {
+            $checklist .= '<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+                <span id="checklist">'.@$file->checklist.'</span>
                 <label class="form-check-label" for="defaultCheck1"></label><br />';
-            }
-        return response()->json(['success'=>$div,'date'=>$date,'descr'=>$descr,'img'=>$img,'checklist'=>$checklist,'comment'=>$comment]);
+        }
+        }
+        return response()->json(['success'=>$div,'date'=>$date,'descr'=>$descr,'img'=>$img,'checklist'=>$checklist,'comment'=>$comment,'di'=>$di]);
 
     }
 }

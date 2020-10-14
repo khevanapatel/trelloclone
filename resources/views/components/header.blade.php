@@ -39,12 +39,27 @@
                         <label for="listing" class="control-label"> List Name</label>
                         <input type="text" name="board" class="form-control board-color" value="{{old('board')}}">
                         <label for="listing" class="control-label"> Color </label>
-                        <div id="switcher">
-                            <input type="checkbox" name="grayButton"  class="form-control gry"/>
-                            <input type="checkbox" value="#ffff00" name="grayButton"  class="form-control Yellow"/>
-                            <input type="checkbox" value="#ffffff" name="grayButton"  class="form-control blue"/>
-                            <input type="checkbox" value="#0000ff" name="grayButton"  class="form-control white"/>
-                            <input type="checkbox" value="#ff0000" name="grayButton"  class="form-control red"/>
+                        <div class="store-color">
+                        <label class="container">
+                            <input type="checkbox" value="#808080" name="grayButton">
+                            <span class="checkmark markcheck"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#026aa7" name="grayButton">
+                            <span class="checkmark check"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#bb3c3c" name="grayButton">
+                            <span class="checkmark marks"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#ff0000" name="grayButton">
+                            <span class="checkmark checkmarks"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#0000ff" name="grayButton">
+                            <span class="checkmark checkm"></span>
+                          </label>
                         </div>
                         <button type="submit" class="btn btn-default button-create"><i class="glyphicon glyphicon-plus"></i>Create Borad</button>
                 </form>

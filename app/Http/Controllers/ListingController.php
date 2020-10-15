@@ -115,18 +115,22 @@ class ListingController extends Controller
 
         // return $request->all();
         $files = new Cartpop();
-        $files->card_id = $request->cart_id;
+        $files->card_id = $request->id;
+
+        if ($request->hasFile('select_file')) {
 
             $image = $request->file('select_file');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+           return $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('files'), $new_name);
             $files->select_file = $new_name;
             $files->save();
-
-            return response()->json([
-            'message'   => 'Image Upload Successfully',
-            'uploaded_image' => '<img src="/images/'.$new_name.'" class="img-thumbnail" width="300" />',
-            'class_name'  => 'alert-success'
+            //
+        }
+        return 1;
+        return response()->json([
+        'message'   => 'Image Upload Successfully',
+        'uploaded_image' => '<img src="/images/'.$new_name.'" class="img-thumbnail" width="300" />',
+        'class_name'  => 'alert-success'
         ]);
     }
 

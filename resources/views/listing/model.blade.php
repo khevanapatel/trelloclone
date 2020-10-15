@@ -65,7 +65,7 @@
                         <div class="col-md-2 ml-auto">
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#members"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text members">Members</span></a>
-                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#checklist"><span class="icon-sm icon-member">
+                            <a class="button-link js-change-card-members" data-toggle="modal" data-target="#check"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text checklist">Checklist</span></a>
                             <a class="button-link js-change-card-members" data-toggle="modal" data-target="#attachment"><span class="icon-sm icon-member">
                                 </span><span class="js-sidebar-action-text attachment">Attachment</span></a>
@@ -122,7 +122,7 @@
     </div>
 
 
-    <div class="modal fade checklist" id="checklist" role="dialog">
+    <div class="modal fade checklist" id="check" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -152,7 +152,8 @@
                     <div class="modal-body">
                         <p>Attachment</p>
                         <input type="file" name="select_file" id="select_file" value="">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                        <input tupe="hidden" name="cart_id" value="">
                         <input type="submit" class="btn btn-success" name="upload" id="submit" value="Upload">
                     </div>
                 </form>

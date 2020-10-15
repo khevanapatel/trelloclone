@@ -180,7 +180,7 @@
 
                     },
                     success: function(response) {
-                        console.log('success');
+                            console.log('success');
                     }
 
                 });
@@ -243,13 +243,17 @@
                 });
 
 
-            $('#upload_form').on('submit', function(event) {
+            $('#upload').on('submit', function(event) {
                 event.preventDefault();
 
                 $.ajax({
                     url: "{{ route('files/upload') }}",
                     method: "POST",
-                    data: new FormData(this),
+                    data: {
+                            '_token': "{{ csrf_token() }}",
+                            'id':id,
+
+                    },
                     dataType: 'JSON',
                     contentType: false,
                     cache: false,
@@ -260,9 +264,26 @@
                         $('#message').html(data.message);
                         $('#message').addClass(data.class_name);
                         $('#uploaded_image').html(data.uploaded_image);
-                        $('#cart_id').html(data.cart_id);
                     }
                 })
+            });
+
+            $('#upload_form').on('submit',function(event){
+                event.preventDefault();
+                var _token = $('#_token').val();
+                var select = $('#select_file').val();
+                $.ajax({
+                    url:"{{ route('files/upload') }}",
+                    method:"post",
+                    data:{
+                        '_token': "{{ csrf_token() }}",
+                        'id':id,
+                        'select':select,
+                    },
+                    success:function(response){
+                        console.log('success', response);
+                    }
+                });
             });
 
 

@@ -35,5 +35,12 @@ class BoardControllers extends Controller
         return redirect()->route('boards');
 
     }
+    public function boarddelete($board_id)
+    {
+        $board = Board::find($board_id);
+        $board->delete();
+        return redirect()->back();
+    }
+
 
 }

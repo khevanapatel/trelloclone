@@ -344,3 +344,29 @@ span.checkmark.checkmarks {
 span.checkmark.checkm {
     background-color: blue;
 }
+
+/* Start board page css */
+.col-sm-2.tile-box {
+    border: 1px solid;
+    margin: 15px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #026aa7;
+    color: #fff;
+}
+.col-sm-2.tile-box span {
+    font-size: 17px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #fff;
+}
+.text-text {
+    text-align: center;
+    font-size: 23px;
+    font-family: sans-serif;
+    margin-top: 70px;
+}
+.delete-board {
+    float: right;
+}
+/* End Board Page css */

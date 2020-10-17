@@ -1,27 +1,10 @@
 @extends('layouts.app')
 @section('style')
     <style type="text/css">
-        .col-sm-2.tile-box {
-            border: 1px solid;
-            margin: 15px;
-            padding: 30px;
-            border-radius: 10px;
-            background-color: #026aa7;
+        .fa-trash:before {
             color: #fff;
         }
-        .col-sm-2.tile-box span {
-            font-size: 17px;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
-        .text-text {
-            text-align: center;
-            font-size: 23px;
-            font-family: sans-serif;
-            margin-top: 70px;
-        }
-
-    </style>
+   </style>
 @endsection
 @section('content')
 <div class="form-group">
@@ -29,10 +12,14 @@
         <p> Please choose Your Board </p>
     </div>
     <div class="col-sm-offset-3 col-sm-6">
-        @foreach($board as $key => $value)
-            <a href="{{ url('cart/'.$value->id) }}">
-            <div class="col-sm-2 tile-box" style="background-color:{{ $value->image }}; " >
-                <span>{{ $value->title }}</span>
+        @foreach($board as  $boards)
+            <a href="{{ url('cart/'.$boards->id) }}">
+            <div class="col-sm-2 tile-box" style="background-color:{{ $boards->image }}; " >
+                <span>{{ $boards->title }}</span>
+                <div class="delete-board">
+                    <a href="{{ Route('boards.delete', $boards->id) }}"  class="delete"
+                    onclick="return confirm('Are you sure you want to delete this board')"><i class="fas fa-trash"></i></a>
+                </div>
             </div>
             </a>
         @endforeach

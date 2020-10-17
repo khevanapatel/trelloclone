@@ -4,7 +4,7 @@
     @include('common.errors')
     <div class="cardeditPgae">
         <div class="container">
-            <form class="cardeditForm" id="edit_card" action="/card/edit" accept-charset="UTF-8" method="post">
+            <form class="cardeditForm" id="edit_card" action="{{ Route('card.update') }}" accept-charset="UTF-8" method="post">
                 {{csrf_field()}}
                 <input type="hidden" name="id" value="{{$card->id}}">
                 <div class="cardeditForm_title">

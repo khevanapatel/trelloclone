@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Response;
-use App\Listing;
-use App\Cartpop;
-use App\Card;
+use App\Models\Listing;
+use App\Models\Cartpop;
+use App\Models\Card;
 use App\Models\User;
-use Illuminate\Support\Facades\Carbon;
 use App\Models\Board;
 
 
@@ -27,8 +25,6 @@ class ListingController extends Controller
     // Display all Data //
     public function index(Request $request,$id)
     {
-
-
         $lists = Board::where('id',$id)->first();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
@@ -113,26 +109,25 @@ class ListingController extends Controller
     // Store Files //
     public function storefiles(Request $request)
     {
-
+        // return $request->id;
         // return $request->all();
         $files = new Cartpop();
         $files->card_id = $request->id;
 
-        if ($request->hasFile('select_file')) {
 
-            $image = $request->file('select_file');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('files'), $new_name);
-            $files->select_file = $new_name;
-            $files->save();
-            //
-        }
-        return 1;
-        return response()->json([
-        'message'   => 'Image Upload Successfully',
-        'uploaded_image' => '<img src="/images/'.$new_name.'" class="img-thumbnail" width="300" />',
-        'class_name'  => 'alert-success'
-        ]);
+        // $image = $request->file('select_file');
+        // $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        // $image->move(public_path('files'), $new_name);
+        // $files->select_file = $new_name;
+
+        $imageName = time().'.'.$request->select_file->getClientOriginalExtension();
+        $request->file->move(public_path('files'), $imageName);
+        $files->select_file = $imageName;
+
+
+        $files->save();
+        return 123;
+
     }
 
     public function deletefiles($id){
@@ -147,12 +142,8 @@ class ListingController extends Controller
 
         $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
 
-        // foreach($cartfile as $file)
-        // {
-        //  return   $filess = $file->label;
-        // }
-       $div =    '';
-       $di = '';
+       $div = '';
+       $di  = '';
        foreach($cartfile as $file){
             if($file->label == ''){
 

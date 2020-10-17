@@ -1,4 +1,3 @@
-
 {{-- Start Add Carts Model --}}
 <div id="CartModals" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -10,7 +9,6 @@
             <div class="modal-body">
                 <form class="cardnewForm" action="" id="cartform" accept-charset="UTF-8" data-remote="true" method="post">
                     {{csrf_field()}}
-                    <input value="{{ $listing->id }}" type="hidden" name="listing_id">
                     <div class="cardnewForm_memo">
                         <label for="card_memo">Title</label>
                         <textarea autofocus="autofocus" class="form-control" placeholder="Details" id="card_title" name="card_title">{{ old('card_title') }}</textarea>
@@ -22,6 +20,32 @@
     </div>
 </div>
 {{-- End Add Carts Model --}}
+{{--  Start Edit Carts Model   --}}
+<div id="CartEditModals" class="modal hide fade" id="CartEditModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Cart</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" id="editformcart">
+                    <div class="cardnewForm_memo">
+                        <label for="card_memo">Title</label>
+                        <textarea autofocus="autofocus" class="form-control" placeholder="Details" id="title" name="title" value=""></textarea>
+                        <input type="hidden" id="_token" name="_token" value="{{  csrf_token() }}">
+                        <input type="hidden" id="cardid" name="cardid" value="">
+                        <input type="hidden" id="lisingid" name="lisingid" value="">
+                        <div class="text-center">
+                            <button id="add" class="btn btn-success update">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{--  End Edit Carts Model --}}
 {{-- Start All Data Display Model --}}
 <div id="myModal" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -173,13 +197,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Attachment</h4>
             </div>
-            <form method="POST" id="upload_form" enctype="multipart/form-data">
+            <form method="post" id="upload_form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <p>Attachment</p>
-                    <input type="file" name="select_file" id="select_file" value="">
+                    <input type="file" name="select_file" id="select_file"  value="">
                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-                    <input tupe="hidden" name="cart_id" value="">
+                    <input tupe="hidden" name="cart_id" id="cart_id" value="">
                     <input type="submit" class="btn btn-success" name="upload" id="submit" value="Upload">
                 </div>
             </form>

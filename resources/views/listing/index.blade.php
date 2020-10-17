@@ -4,6 +4,12 @@
         .add-list {
             padding: 20px;
         }
+        button#add {
+            margin-top: 12px;
+            padding-left: 60px;
+            padding-right: 70px;
+            border-radius: 20px;
+        }
     </style>
 @endsection
 
@@ -44,8 +50,8 @@
                                     <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
                                         <h3 class="card_title">{{ $card->title }}</h3>
                                         <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
-                                        {{-- <div class="card_detail is-exist left"><a class="cardDetail_link" href="/listing/{{$listing->id}}/card/{{$card->id}}/edit"><i class="fas fa-pen"></i></a></div> --}}
-                                        {{-- <div class="card_detail is-exist left"><a class="cardDetail_link" data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div> --}}
+                                        {{--  <div class="card_detail is-exist left"><a class="cardDetail_link" href="/listing/{{$listing->id}}/card/{{$card->id}}/edit"><i class="fas fa-pen"></i></a></div>  --}}
+                                        <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" lising_id="{{ $listing->id }}" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
                                     </a>
                                 </div>
                             </div>
@@ -61,25 +67,6 @@
     </div>
 @endsection
 
-<div id="CartEditModals" class="modal hide fade" id="CartEditModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Cart</h4>
-            </div>
-            <div class="modal-body">
-                <form class="cardnewForm" method="POST"  id="editform" accept-charset="UTF-8" data-remote="true">
-                    <div class="cardnewForm_memo">
-                        <label for="card_memo">Title</label>
-                        <textarea autofocus="autofocus" class="form-control" placeholder="Details" id="title" name="title">{{ old('card_title') }}</textarea>
-                        <div class="text-center"><input type="submit" name="commit" value="create" class="submitBtn" data-disable-with="create"></div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @section('script')
     <script src="{{ url('js/jquery.min.js') }}"></script>
     <script src="{{ url('js/script.js') }}">
@@ -87,6 +74,43 @@
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript"/>
+
+
+    $(".cardWrappers").click(function() {
+        var cilckid = $(this).attr('cart_id');
+        var id = $(this).attr('cart_id');
+        var list_id = $(this).attr('lising_id');
+        $("#cardid").val(id);
+        $("#lisingid").val(list_id);
+    });
+
+
+    $('#editformcart').on('submit', function(event) {
+        event.preventDefault();
+        var title = $("#title").val();
+        var cardid = $("#cardid").val();
+        var lisingid = $("lisingid").val();
+
+        $.ajax({
+            url: "<?=url('update/listing/carts')?>",
+            method: "post",
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'title': $("#title").val(),
+                'cardid':$("#cardid").val(),
+                'lisingid':$("#lisingid").val(),
+
+            },
+            success: function(response) {
+                console.log('success');
+                location.reload(true);
+
+            }
+
+        });
+    });
+
+
 
     function showInputBox() {
         if (document.getElementById("textInput")) {
@@ -142,10 +166,11 @@
         $(".cardWrappers").click(function() {
             var cilckid = $(this).attr('cart_id');
             var id = $(this).attr('cart_id');
+            $("#cardid").val(id);
             var list_id = $(this).attr('list_id');
 
             $.ajax({
-                url: "{{ Route('get/model') }}",
+                url: "{{ Route('get.model') }}",
                 method: "post",
                 data: {
                     '_token': "{{ csrf_token() }}",
@@ -180,36 +205,19 @@
                     },
                     success: function(response) {
                         console.log('success');
+                        location.reload(true);
                     }
 
                 });
             });
 
-            $('#editform').on('submit', function(event) {
-                event.preventDefault();
-                var card_title = $("#card_title").val();
-                alrte('hello');
-                $.ajax({
-                    url: "{{ Route('card/update') }}",
-                    method: "post",
-                    data: {
-                        '_token': "{{ csrf_token() }}",
-                        'card_title': card_title,
-                        'id': id,
-                    },
-                    success: function(response) {
-                        alrte('hiii');
-                    }
-
-                });
-            });
 
             $('#descriptionform').on('submit', function(event) {
                 event.preventDefault();
                 var show = $("#show").val();
 
                 $.ajax({
-                    url: "{{ Route('update/files') }}",
+                    url: "{{ Route('update.files') }}",
                     method: "post",
                     dataType:'json',
                     data: {
@@ -230,7 +238,7 @@
                 var textInput = $("#textInput").val();
 
                 $.ajax({
-                    url:"{{ Route('update/files') }}",
+                    url:"{{ Route('update.files') }}",
                     method: "post",
                     data: {
                         '_token': "{{ csrf_token() }}",
@@ -251,7 +259,7 @@
                 var checklist = $('#check').val();
 
                 $.ajax({
-                    url:"{{ route('update/files') }}",
+                    url:"{{ route('update.files') }}",
                     method:"post",
                     data:{
                         '_token': "{{ csrf_token() }}",
@@ -269,7 +277,7 @@
                 event.preventDefault();
                 var label = $('#labe').val();
                 $.ajax({
-                    url:"{{ route('update/files') }}",
+                    url:"{{ route('update.files') }}",
                     method:"post",
                     data:{
                         '_token':"{{ csrf_token() }}",
@@ -288,7 +296,7 @@
                     var start = $('#start').val();
 
                     $.ajax({
-                        url:"{{ route('update/files') }}",
+                        url:"{{ route('update.files') }}",
                         method:"post",
                         data:{
                             '_token': "{{ csrf_token() }}",
@@ -302,38 +310,34 @@
                 });
 
 
-            $('#upload').on('submit', function(event) {
+            $('#upload_form').on('submit', function(event) {
                 event.preventDefault();
-
+                /*var select_file =$('#select_file').val();*/
+                /*var form = $('#select_file');*/
+                var form = $('select_file')[0];
+                var id = $(this).attr('cart_id');
+                var formData = new FormData(form);
+                alert(formData);
                 $.ajax({
-                    url: "{{ route('files/upload') }}",
-                    method: "POST",
-                    data: {
-                            '_token': "{{ csrf_token() }}",
-                            'id':id,
-
-                    },
-                    dataType: 'JSON',
-                    contentType: false,
-                    cache: false,
+                    url: "{{ route('files.upload') }}",
+                    method: "post",
+                    data : formData,
+                    cache : false,
                     processData: false,
-                    success: function(data) {
-                        console.log(data);
-                        $('#message').css('display', 'block');
-                        $('#message').html(data.message);
-                        $('#message').addClass(data.class_name);
-                        $('#uploaded_image').html(data.uploaded_image);
+                    success:function(response){
+                        console.log('success', response);
                     }
+
                 })
             });
 
-            $('#upload_form').on('submit',function(event){
+            $('#upload').on('submit',function(event){
                 event.preventDefault();
                 var _token = $('#_token').val();
                 var select = $('#select_file').val();
                 $.ajax({
-                    url:"{{ route('files/upload') }}",
-                    method:"post",
+                    url:"{{ route('files.upload') }}",
+                    method:"patch",
                     data:{
                         '_token': "{{ csrf_token() }}",
                         'id':id,
@@ -368,7 +372,7 @@
                     var comment = $('#comments').val();
 
                     $.ajax({
-                        url: "{{ route('update/files') }}",
+                        url: "{{ route('update.files') }}",
                         method: "post",
                         data: {
                             '_token': "{{ csrf_token() }}",
@@ -382,6 +386,5 @@
                 });
             });
         });
-
     </script>
 @endsection

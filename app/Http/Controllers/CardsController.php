@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Card;
-use App\Listing;
+use App\Models\Card;
+use App\Models\Listing;
 
 
 class CardsController extends Controller
@@ -63,22 +63,21 @@ class CardsController extends Controller
 
 
     // Update Cards //
-    public function update(Request $request)
+    public function updatecard(Request $request)
     {
 
-        $validator = Validator::make($request->all() , ['card_title' => 'required|max:255',]);
+        // $validator = Validator::make($request->all() , ['card_title' => 'required|max:255',]);
 
-        if ($validator->fails())
-        {
-            return redirect()->back()->withErrors($validator->errors())->withInput();
-        }
-        return $request->all();
-        $card = Card::find($request->id);
-        $card->title = $request->card_title;
-        $card->memo = $request->card_memo;
-        $card->listing_id = $request->listing_id;
+        // if ($validator->fails())
+        // {
+        //     return redirect()->back()->withErrors($validator->errors())->withInput();
+        // }
+
+        $card = Card::find($request->cardid);
+        $card->title = $request->title;
+        $card->listing_id = $request->lisingid;
         $card->save();
-        return redirect()->back();
+        return 1;
     }
 
     // Delete Cards //

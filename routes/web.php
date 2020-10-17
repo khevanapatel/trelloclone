@@ -25,29 +25,30 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Auth::routes();
 
 // Listing Controller //
-Route::any('/cart/{id}','ListingController@index')->name('cart/id');
-Route::post('/get/model','ListingController@getmodel')->name('get/model');
+Route::any('/cart/{id}','ListingController@index')->name('cart.id');
+Route::post('/get/model','ListingController@getmodel')->name('get.model');
 Route::get('/new','ListingController@new')->name('new');
 Route::post('/listings','ListingController@store')->name('listings');
-Route::get('/listingsedit/{listing_id}', 'ListingController@edit')->name('listingsedit');
-Route::post('/listing/edit','ListingController@update')->name('listing/edit');
+Route::get('/listingsedit/{listing_id}', 'ListingController@edit')->name('listings.edit');
+Route::post('/listing/edit','ListingController@update')->name('listing.edit');
 Route::get('/listingsdelete/{listing_id}', 'ListingController@destroy');
-Route::get('update/items','ListingController@updateItems')->name('update/items');
-Route::post('update/files','ListingController@storedata')->name('update/files');
-Route::post('files/upload','ListingController@storefiles')->name('files/upload');
-Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete/files');
+Route::get('update/items','ListingController@updateItems')->name('update.items');
+Route::post('update/files','ListingController@storedata')->name('update.files');
+Route::post('files/upload','ListingController@storefiles')->name('files.upload');
+Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete.files');
 
 // Carts Controller //
-Route::get('listing/{listing_id}/card/new', 'CardsController@new')->name('new/card');
-Route::post('add/listing/carts', 'CardsController@store')->name('add/listing/carts');
-Route::get('listing/{listing_id}/card/{card_id}', 'CardsController@show')->name('listing/listingid/card/cardid/edit');
-Route::get('/listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing/listingid/card/cardid');
-Route::post('card/update', 'CardsController@update')->name('card/update');
-Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destroy')->name('delete');
+Route::get('listing/{listing_id}/card/new', 'CardsController@new')->name('new.card');
+Route::post('add/listing/carts', 'CardsController@store')->name('add.listing.carts');
+Route::get('listing/{listing_id}/card/{card_id}', 'CardsController@show')->name('listing.listingid.card.cardid.edit');
+Route::get('/listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing.listingid.card.cardid');
+Route::post('update/listing/carts', 'CardsController@updatecard')->name('card.update');
+Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destroy')->name('delete.carts');
 
 // Board Controller //
 Route::get('boards','BoardControllers@index')->name('boards');
-Route::post('boards/add','BoardControllers@boardstore')->name('boards/add');
+Route::post('boards/add','BoardControllers@boardstore')->name('boards.add');
+Route::get('boards/delete/{board_id}','BoardControllers@boarddelete')->name('boards.delete');
 
 
 

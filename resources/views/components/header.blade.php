@@ -41,23 +41,23 @@
                         <label for="listing" class="control-label"> Color </label>
                         <div class="store-color">
                         <label class="container">
-                            <input type="checkbox" value="#808080" name="grayButton">
+                            <input type="checkbox" value="#808080" style="display:none;" name="grayButton">
                             <span class="checkmark markcheck"></span>
                           </label>
                           <label class="container">
-                            <input type="checkbox" value="#026aa7" name="grayButton">
+                            <input type="checkbox" value="#026aa7" style="display:none;" name="grayButton">
                             <span class="checkmark check"></span>
                           </label>
                           <label class="container">
-                            <input type="checkbox" value="#bb3c3c" name="grayButton">
+                            <input type="checkbox" value="#bb3c3c" style="display:none;" name="grayButton">
                             <span class="checkmark marks"></span>
                           </label>
                           <label class="container">
-                            <input type="checkbox" value="#ff0000" name="grayButton">
+                            <input type="checkbox" value="#ff0000" style="display:none;" name="grayButton">
                             <span class="checkmark checkmarks"></span>
                           </label>
                           <label class="container">
-                            <input type="checkbox" value="#0000ff" name="grayButton">
+                            <input type="checkbox" value="#0000ff" style="display:none;" name="grayButton">
                             <span class="checkmark checkm"></span>
                           </label>
                         </div>
@@ -68,3 +68,17 @@
     </div>
 </div>
 
+
+@if(count($errors)> 0)
+    <!--Form Error List -->
+    <div class="alert alert-danger">
+        <div><strong>Please correct the characters you typed</strong></div>
+        <div>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+@endif

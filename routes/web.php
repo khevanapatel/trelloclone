@@ -25,7 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Auth::routes();
 
 // Listing Controller //
-Route::any('/cart/{id}','ListingController@index')->name('carts/');
+Route::any('/cart/{id}','ListingController@index')->name('cart/id');
 Route::post('/get/model','ListingController@getmodel')->name('get/model');
 Route::get('/new','ListingController@new')->name('new');
 Route::post('/listings','ListingController@store')->name('listings');
@@ -39,10 +39,10 @@ Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete/fi
 
 // Carts Controller //
 Route::get('listing/{listing_id}/card/new', 'CardsController@new')->name('new/card');
-Route::post('/listing/{listing_id}/card', 'CardsController@store')->name('listing/card');
+Route::post('add/listing/carts', 'CardsController@store')->name('add/listing/carts');
 Route::get('listing/{listing_id}/card/{card_id}', 'CardsController@show')->name('listing/listingid/card/cardid/edit');
 Route::get('/listing/{listing_id}/card/{card_id}/edit', 'CardsController@edit')->name('listing/listingid/card/cardid');
-Route::post('/card/edit', 'CardsController@update')->name('card/edit');
+Route::post('card/update', 'CardsController@update')->name('card/update');
 Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destroy')->name('delete');
 
 // Board Controller //

@@ -28,6 +28,7 @@ class ListingController extends Controller
     public function index(Request $request,$id)
     {
 
+
         $lists = Board::where('id',$id)->first();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         $carts = Card::get();
@@ -120,7 +121,7 @@ class ListingController extends Controller
         if ($request->hasFile('select_file')) {
 
             $image = $request->file('select_file');
-           return $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('files'), $new_name);
             $files->select_file = $new_name;
             $files->save();

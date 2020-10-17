@@ -18,7 +18,7 @@ class BoardControllers extends Controller
     public function boardstore(Request $request)
     {
 
-        $validator = Validator::make($request->all(),['board'=>'required|max:255',]);
+        $validator = Validator::make($request->all(),['board'=>'required|max:255|unique:board,title',]);
 
         if ($validator->fails())
         {

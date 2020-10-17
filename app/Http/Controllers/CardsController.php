@@ -25,20 +25,21 @@ class CardsController extends Controller
     public function store(Request $request)
     {
 
-        $validator = Validator::make($request->all() , ['card_title' => 'required|max:255', 'card_memo' => 'required|max:255',]);
+        $validator = Validator::make($request->all() , ['card_title' => 'required|max:255',]);
 
         if ($validator->fails())
         {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
+        // return $request->all();
         $cards = new Card;
         $cards->title = $request->card_title;
-        $cards->listing_id = $request->listing_id;
+        $cards->listing_id = $request->list_id;
         $cards->memo = $request->card_memo;
-
         $cards->save();
-        return redirect()->back();
+        return response()->json('success');
+
     }
 
     // Display Card //
@@ -65,13 +66,13 @@ class CardsController extends Controller
     public function update(Request $request)
     {
 
-        $validator = Validator::make($request->all() , ['card_title' => 'required|max:255', 'card_memo' => 'required|max:255',]);
+        $validator = Validator::make($request->all() , ['card_title' => 'required|max:255',]);
 
         if ($validator->fails())
         {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
-
+        return $request->all();
         $card = Card::find($request->id);
         $card->title = $request->card_title;
         $card->memo = $request->card_memo;

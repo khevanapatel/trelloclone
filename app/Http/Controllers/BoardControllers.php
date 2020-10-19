@@ -9,12 +9,14 @@ use App\Models\Board;
 
 class BoardControllers extends Controller
 {
+    // Show Board List //
     public function index()
     {
         $board = Board::get();
         return view('board.index',['board'=>$board]);
     }
 
+    // Store Board //
     public function boardstore(Request $request)
     {
 
@@ -26,7 +28,6 @@ class BoardControllers extends Controller
                 ->withErrors($validator->errors())->withInput();
         }
 
-        // return $request->all();
         $board = new Board;
         $board->title = $request->board;
         $board->image = $request->grayButton;
@@ -35,6 +36,7 @@ class BoardControllers extends Controller
         return redirect()->route('boards');
 
     }
+    // Board Delete //
     public function boarddelete($board_id)
     {
         $board = Board::find($board_id);

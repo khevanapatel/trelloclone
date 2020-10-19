@@ -51,7 +51,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Name Trello</h5>
+                <h5 class="modal-title" id="exampleModalScrollableTitle">New Name</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -59,26 +59,27 @@
             <div class="col-md-10">
                 <h5>LABEL</h5>
                 <div class="textlbel">
+                    <span id="cardlabel"></span>
                 </div>
                 <div class="dates-date">
                     <h5>DUE DATE</h5>
-                    <div class="date-color date"></div>
+                    <div class="date-color date" id="carddate"></div>
+                    <input type="hidden" name="card_date" id="card_date" value="" >
                 </div>
-                <div class="description">
+                <div class="description descr">
                     <h4>
                         <form class="theme-form" id="descriptionform" action="">
                             <span class="name-title">Description</span>
-                            <input type="text" class="form-control description-comment" name="description" id="show"
-                            value="" placeholder="Description">
+                            <input type="text" class="form-control description-comment" name="description" id="show" value="" placeholder="Description">
                             <input type="submit" value="Save" name="submit" id="submit" class="btn btn-success menu" style="display: none;">
                             <button type="button" class="menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                         </form>
                     </h4>
                 </div>
                 <div class="attachment">
-                    <div class="images">
+                    <div class="images image">
                         <h4>Attachment</h4>
-                        <div class="center-image image">
+                        <div class="center-image" id="select_file">
                         </div>
                     </div>
                 </div>
@@ -89,12 +90,12 @@
                     </div>
                     <span><div class="progressbar-label"></div></span>
                 </div>
-                <div class="checklist-checklist">
-                    <span class="checklist check"></span>
+                <div class="checklist-checklist" id="cardchecklist" >
+
                 </div>
-                <div class="add-checklist">
+                <div class="add-checklist comment" >
                     <form class="theme-form" id="addchecklist" action="">
-                        <input type="text"  class="demo-demo" name="checklist" id="textInput" value="" hidden/>
+                        <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""/>
                         <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>
                 </div>

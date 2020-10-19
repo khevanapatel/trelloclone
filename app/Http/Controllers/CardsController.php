@@ -66,13 +66,6 @@ class CardsController extends Controller
     public function updatecard(Request $request)
     {
 
-        // $validator = Validator::make($request->all() , ['card_title' => 'required|max:255',]);
-
-        // if ($validator->fails())
-        // {
-        //     return redirect()->back()->withErrors($validator->errors())->withInput();
-        // }
-
         $card = Card::find($request->cardid);
         $card->title = $request->title;
         $card->listing_id = $request->lisingid;

@@ -52,7 +52,6 @@ class ListingController extends Controller
         $listing = new Listing;
         $listing->title    = $request->list_name;
         $listing->board_id = $request->board_id;
-
         $listing->user_id = Auth::user()->id;
         $listing->save();
         return redirect()->back();
@@ -92,16 +91,51 @@ class ListingController extends Controller
     public function storedata(Request $request)
     {
 
-        // return $request->all();
-        $file= new Cartpop();
-        $file->description = $request->show;
-        $file->comment     = $request->comment;
-        $file->checklist   = $request->textInput;
-        $file->label       = $request->label;
-        $file->date        = $request->start;
-        $file->card_id     = $request->id;
-        $file->save();
-        return 123;
+
+         $cart = Cartpop::where('card_id',$request->id)->first();
+
+        if(!$cart)
+        {
+            $file= new  Cartpop();
+            $file->description = $request->show;
+            $file->comment     = $request->comment;
+            $file->checklist   = $request->textInput;
+            $file->label       = $request->label;
+            $file->date        = $request->start;
+            $file->card_id     = $request->id;
+            $file->save();
+            return 'added';
+
+        }
+        else
+        {
+            if($request->show != null)
+            {
+                $cart->description = $request->show;
+            }
+            if($request->comment != null)
+            {
+                $cart->comment = $request->comment;
+            }
+            if($request->textInput != null)
+            {
+                $cart->checklist = $request->textInput;
+            }
+            if($request->label != null)
+            {
+                $cart->label = $request->label;
+            }
+            if($request->start != null)
+            {
+                $cart->date = $request->start;
+            }
+            if($request->start != null)
+            {
+                $cart->card_id = $request->id;
+            }
+            $cart->save();
+            return 'updated';
+        }
     }
 
 
@@ -109,27 +143,19 @@ class ListingController extends Controller
     // Store Files //
     public function storefiles(Request $request)
     {
-        // return $request->id;
-        // return $request->all();
+
         $files = new Cartpop();
         $files->card_id = $request->id;
 
-
-        // $image = $request->file('select_file');
-        // $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        // $image->move(public_path('files'), $new_name);
-        // $files->select_file = $new_name;
-
-        $imageName = time().'.'.$request->select_file->getClientOriginalExtension();
-        $request->file->move(public_path('files'), $imageName);
-        $files->select_file = $imageName;
-
-
+        $image = $request->file('select_file');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('files'), $new_name);
+        $files->select_file = $new_name;
         $files->save();
-        return 123;
+        return 1234;
 
     }
-
+    // Delete Function //
     public function deletefiles($id){
 
         $listing = Cartpop::find($id);
@@ -137,69 +163,60 @@ class ListingController extends Controller
         return redirect()->back();
     }
 
+    // Get Model Data Display //
     public function getmodel(Request $request)
     {
+        // return $request->cilckid;
+    $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
+    if($cartfile)
+    {
 
-        $cartfile = Cartpop::where('card_id',$request->cilckid)->get();
+    $descr   = $cartfile->description;
+    $comment = $cartfile->comment;
 
-       $div = '';
-       $di  = '';
-       foreach($cartfile as $file){
-            if($file->label == ''){
+    $label = $cartfile->label;
 
-            }else{
-                  $div.='<span class="labels">'.$file->label.'</span>';
-                  $di.='<span class="labels">'.$file->label.'</span>';
-            }
-        }
+    $carddate = $cartfile->date;
+
+    $checklist = $cartfile->checklist;
+
+    $checklist = $cartfile->checklist;
+
+    //    foreach($cartfile as $file){
+
+    //         $div.='<span class="labels">'.$file->label.'</span>';
+    //         $di.='<span class="labels">'.$file->label.'</span>';
+
+    //     }
 
        $date = '';
-       foreach($cartfile as $file)
-       {
-            if($file->date == ''){
 
-            }else{
-                $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
-                <span class="date">'.date('d F Y', strtotime(@$file->date)).'</span>';
-           }
-        }
-
-       $descr = '';
-       $comment = '';
-       foreach($cartfile as $file)
-       {
-            if($file->comment == '' && $file->description == '') {
-
-            }else{
-                $descr =   @$file->description;
-                $comment = @$file->comment;
-                $labe =    @$file->label;
-            }
-        }
-       $img ='';
-        foreach($cartfile as $file)
-        {
-            if($file->select_file == '') {
-
-            }else{
-                $img .= '<img src="'.asset('files/'.@$file->select_file).'" class="img-fluid  lazyload product-img">
-                         <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
-            }
-        }
+                // $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
+                // <span class="date">'.date('d F Y', strtotime(@$cartfile->date)).'</span>';
 
 
-       $checklist = '';
-        foreach($cartfile as $file){
-        if($file->checklist == '') {
 
-        }else
-        {
-            $checklist .= '<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
-                <span id="checklist">'.@$file->checklist.'</span>
-                <label class="form-check-label" for="defaultCheck1"></label><br />';
-        }
-        }
-        return response()->json(['success'=>$div,'date'=>$date,'descr'=>$descr,'img'=>$img,'checklist'=>$checklist,'comment'=>$comment,'di'=>$di]);
+    //    $descr = '';
+    //    $comment = '';
+    //    foreach($cartfile as $file)
+    //     {
+    //         $descr   = $file->description;
+    //         $comment = $file->comment;
 
+    //     }
+    //    $img ='';
+    //     foreach($cartfile as $file)
+    //     {
+    //         $img .= '<img src="'.asset('files/'.@$file->select_file).'" class="img-fluid  lazyload product-img">
+    //                     <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
+
+    //     }
+
+            // $checklist = '<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+            //     <span id="checklist">'.@$cartfile->checklist.'</span><br />';
+
+        // return $img;
+        return response()->json(['success'=>$descr,'label'=>$label,'comment'=>$comment,'checklist'=>$checklist,'carddate'=>$carddate]);
+    }
     }
 }

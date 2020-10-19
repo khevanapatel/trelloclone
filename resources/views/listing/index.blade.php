@@ -178,18 +178,77 @@
 
                 },
                 success: function(response) {
+                    console.log(response.date);
                     if(response.success) {
-                        $(".labes").html(response.div);
-                        $(".date").html(response.date);
-                        $("#show").val(response.descr);
-                        $(".image").html(response.img);
-                        $(".check").html(response.checklist);
+
+                        $("#show").val(response.success);
                         $("#comment").val(response.comment);
-                        $(".textlbel").html(response.di);
-                      }
+                    }
+                    else
+                    {
+                        $("#show").val('');
+                        $("#comment").val('');
+                    }
+                    if(response.checklist){
+                        $("#textInput").html(response.checklist);
+                    }
+                    else{
+                        $("#textInput").html('');
+                    }
+                    if(response.carddate){
+                        $("#carddate").text(response.carddate);
+                        $("#card_date").val(response.carddate);
+                    }
+                    else{
+                        $("#carddate").text('');
+                    }
+                    if(response.label)
+                    {
+                        $("#cardlabel").html(response.label);
+                        $("#card_label").val(response.label);
+                    }
+                    else
+                    {
+                        $("#cardlabel").html('');
+                    }
+                    if(response.checklist)
+                    {
+                        $("#cardchecklist").html('');
+                        $("#cardchecklist").html('<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">  <span>'+response.checklist+'</span>');
+                    }
+                    else
+                    {
+                        $("#cardchecklist").html('');
+                    }
+
                 }
 
             });
+
+            $('#upload_form').on('submit', function(event) {
+                event.preventDefault();
+                alert('hii');
+                var _token = $('input#_token').val();
+                var select_file = $('input#select_file').val();
+                var formData = new FormData();
+                formData.append("_token", _token);
+                formData.append("id",id);
+                formData.append("select_file", $('#select_file')[0].files[0]);
+
+                $.ajax({
+                      url:"{{ route('files.upload') }}",
+                      data : formData,
+                      dataType:'json',
+                      async:false,
+                      type:'post',
+                      processData: false,
+                      contentType: false,
+                      success:function(response){
+                        console.log(response);
+                      },
+                    });
+                 });
+
 
             $('#cartform').on('submit', function(event) {
                 event.preventDefault();
@@ -276,6 +335,7 @@
             $('#lablefrom').on('submit', function(event){
                 event.preventDefault();
                 var label = $('#labe').val();
+                console.log(label);
                 $.ajax({
                     url:"{{ route('update.files') }}",
                     method:"post",
@@ -289,7 +349,6 @@
                     }
                 });
             });
-
 
                 $('#dateform').on('submit',function(event){
                     event.preventDefault();
@@ -308,47 +367,6 @@
                         }
                     });
                 });
-
-
-            $('#upload_form').on('submit', function(event) {
-                event.preventDefault();
-                /*var select_file =$('#select_file').val();*/
-                /*var form = $('#select_file');*/
-                var form = $('select_file')[0];
-                var id = $(this).attr('cart_id');
-                var formData = new FormData(form);
-                alert(formData);
-                $.ajax({
-                    url: "{{ route('files.upload') }}",
-                    method: "post",
-                    data : formData,
-                    cache : false,
-                    processData: false,
-                    success:function(response){
-                        console.log('success', response);
-                    }
-
-                })
-            });
-
-            $('#upload').on('submit',function(event){
-                event.preventDefault();
-                var _token = $('#_token').val();
-                var select = $('#select_file').val();
-                $.ajax({
-                    url:"{{ route('files.upload') }}",
-                    method:"patch",
-                    data:{
-                        '_token': "{{ csrf_token() }}",
-                        'id':id,
-                        'select':select,
-                    },
-                    success:function(response){
-                        console.log('success', response);
-                    }
-                });
-            });
-
 
             $(".deleteRecord").click(function(){
                 var id = $(this).data("id");
@@ -369,7 +387,7 @@
                 $('#commentform').on('submit', function(event) {
                     event.preventDefault();
 
-                    var comment = $('#comments').val();
+                    var comment = $('#comment').val();
 
                     $.ajax({
                         url: "{{ route('update.files') }}",

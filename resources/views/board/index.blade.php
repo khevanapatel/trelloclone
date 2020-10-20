@@ -14,7 +14,7 @@
     <div class="col-sm-offset-3 col-sm-6">
         @foreach($board as  $boards)
             <a href="{{ url('cart/'.$boards->id) }}">
-            <div class="col-sm-2 tile-box" style="background-color:{{ $boards->image }}; " >
+            <div class="col-sm-2 tile-box" style="background-color:{{ $boards->image }};">
                 <span>{{ $boards->title }}</span>
                 <div class="delete-board">
                     <a href="{{ Route('boards.delete', $boards->id) }}"  class="delete"

@@ -10,6 +10,21 @@
             padding-right: 70px;
             border-radius: 20px;
         }
+        div#carddate {
+            background-color: #d4d8d8;
+            padding: 5px;
+            width: 100px;
+            text-align: center;
+        }
+        a.confirm-delete {
+            float: right;
+        }
+        .check-checklist {
+            margin-bottom: 6px;
+        }
+        .comment-comment {
+            margin-bottom: 15px;
+        }
     </style>
 @endsection
 
@@ -50,7 +65,6 @@
                                     <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
                                         <h3 class="card_title">{{ $card->title }}</h3>
                                         <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
-                                        {{--  <div class="card_detail is-exist left"><a class="cardDetail_link" href="/listing/{{$listing->id}}/card/{{$card->id}}/edit"><i class="fas fa-pen"></i></a></div>  --}}
                                         <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" lising_id="{{ $listing->id }}" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
                                     </a>
                                 </div>
@@ -109,8 +123,6 @@
 
         });
     });
-
-
 
     function showInputBox() {
         if (document.getElementById("textInput")) {
@@ -178,22 +190,14 @@
 
                 },
                 success: function(response) {
-                    console.log(response.date);
                     if(response.success) {
 
                         $("#show").val(response.success);
-                        $("#comment").val(response.comment);
                     }
                     else
                     {
                         $("#show").val('');
-                        $("#comment").val('');
-                    }
-                    if(response.checklist){
-                        $("#textInput").html(response.checklist);
-                    }
-                    else{
-                        $("#textInput").html('');
+
                     }
                     if(response.carddate){
                         $("#carddate").text(response.carddate);
@@ -211,15 +215,6 @@
                     {
                         $("#cardlabel").html('');
                     }
-                    if(response.checklist)
-                    {
-                        $("#cardchecklist").html('');
-                        $("#cardchecklist").html('<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">  <span>'+response.checklist+'</span>');
-                    }
-                    else
-                    {
-                        $("#cardchecklist").html('');
-                    }
 
                 }
 
@@ -230,10 +225,11 @@
                 alert('hii');
                 var _token = $('input#_token').val();
                 var select_file = $('input#select_file').val();
+                alert(select_file);
                 var formData = new FormData();
                 formData.append("_token", _token);
                 formData.append("id",id);
-                formData.append("select_file", $('#select_file')[0].files[0]);
+                formData.append("upload_form").files['0'].select_file;
 
                 $.ajax({
                       url:"{{ route('files.upload') }}",
@@ -294,15 +290,16 @@
 
             $('#addchecklist').on('submit', function(event) {
                 event.preventDefault();
-                var textInput = $("#textInput").val();
+                var list = $("#textInput").val();
+                var title_id = $("#title_id").val();
 
                 $.ajax({
-                    url:"{{ Route('update.files') }}",
+                    url:"{{ Route('check.list') }}",
                     method: "post",
                     data: {
                         '_token': "{{ csrf_token() }}",
-                        'textInput': textInput,
-                        'id': id,
+                        'list': list,
+                        'title_id': title_id,
 
                     },
                     success: function(response) {
@@ -315,10 +312,10 @@
 
             $('#checklistform').on('submit',function(event){
                 event.preventDefault();
-                var checklist = $('#check').val();
+                var checklist = $('#checklist').val();
 
                 $.ajax({
-                    url:"{{ route('update.files') }}",
+                    url:"{{ route('check.title') }}",
                     method:"post",
                     data:{
                         '_token': "{{ csrf_token() }}",
@@ -335,14 +332,20 @@
             $('#lablefrom').on('submit', function(event){
                 event.preventDefault();
                 var label = $('#labe').val();
-                console.log(label);
+                var color = $('#grayButton').val();
+                var color = $('#Buttonred').val();
+                var color = $('#blueButton').val();
+                var color = $('#yellowButton').val();
+                var color = $('#redsButton').val();
+
                 $.ajax({
-                    url:"{{ route('update.files') }}",
+                    url:"{{ route('label') }}",
                     method:"post",
                     data:{
                         '_token':"{{ csrf_token() }}",
                         'id':id,
                         'label':label,
+                        'color':color,
                     },
                     success:function(response){
                         console.log('success');
@@ -390,7 +393,7 @@
                     var comment = $('#comment').val();
 
                     $.ajax({
-                        url: "{{ route('update.files') }}",
+                        url: "{{ route('comment') }}",
                         method: "post",
                         data: {
                             '_token': "{{ csrf_token() }}",

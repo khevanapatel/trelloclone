@@ -10,6 +10,9 @@ use App\Models\Cartpop;
 use App\Models\Card;
 use App\Models\User;
 use App\Models\Board;
+use App\Models\Checktitle;
+Use App\Models\Comment;
+use App\Models\label;
 
 
 // use Validator;
@@ -25,11 +28,14 @@ class ListingController extends Controller
     // Display all Data //
     public function index(Request $request,$id)
     {
-        $lists = Board::where('id',$id)->first();
-        $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
+        $label = label::get();
         $carts = Card::get();
         $user = User::get();
-        return view('listing/index',compact('listings','carts','user','lists'));
+        $comment = Comment::get();
+        $lists = Board::where('id',$id)->first();
+        $checklist = Checktitle::with('checklist')->get();
+        $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
+        return view('listing/index',compact('listings','carts','user','lists','checklist','comment','label'));
     }
 
     public function new()
@@ -90,8 +96,6 @@ class ListingController extends Controller
     // Store Data //
     public function storedata(Request $request)
     {
-
-
          $cart = Cartpop::where('card_id',$request->id)->first();
 
         if(!$cart)
@@ -143,16 +147,22 @@ class ListingController extends Controller
     // Store Files //
     public function storefiles(Request $request)
     {
-
+        // return $request->all();
         $files = new Cartpop();
         $files->card_id = $request->id;
 
-        $image = $request->file('select_file');
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('files'), $new_name);
-        $files->select_file = $new_name;
+        // $image = $request->file('select_file');
+        // $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        // $image->move(public_path('files'), $new_name);
+        // $files->select_file = $new_name;
+        // $files->save();
+        $file = $request->select_file;
+        $destinationPath = public_path().'/files/';
+        $filename= rand() . '.'.$file->clientExtension();
+        $file->move($destinationPath, $filename);
+        $files->select_file = $filename;
         $files->save();
-        return 1234;
+        return 1234456;
 
     }
     // Delete Function //

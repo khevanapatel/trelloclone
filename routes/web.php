@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChecklistController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -49,6 +50,15 @@ Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destro
 Route::get('boards','BoardControllers@index')->name('boards');
 Route::post('boards/add','BoardControllers@boardstore')->name('boards.add');
 Route::get('boards/delete/{board_id}','BoardControllers@boarddelete')->name('boards.delete');
+
+// Checklist Controller and Comment data Store,Label Store //
+Route::post('check/title','ChecklistController@storetitle')->name('check.title');
+Route::get('check/title/delete/{checktitle_id}','ChecklistController@deletechecktitle')->name('check.title.delete');
+Route::post('check/list', 'ChecklistController@storelist')->name('check.list');
+Route::get('check/list/delete/{list_id}','ChecklistController@deletechecklist')->name('check.list.delete');
+Route::post('comment',    'ChecklistController@storecomment')->name('comment');
+Route::get('comment/delete/{comment_id}','ChecklistController@commentdelete')->name('comment.delete');
+Route::post('label',      'ChecklistController@storelabel')->name('label');
 
 
 

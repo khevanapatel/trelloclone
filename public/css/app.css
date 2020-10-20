@@ -70,7 +70,7 @@ span.js-sidebar-action-text {
     padding-top: 12px;
 }
 form#commentform {
-    margin-bottom: 65px;
+    margin-bottom: 20px;
 }
 
 button.menu {
@@ -370,3 +370,9 @@ span.checkmark.checkm {
     float: right;
 }
 /* End Board Page css */
+
+span#cardlabel {
+    font-size: 16px;
+    font-family: sans-serif;
+    padding: 5px;
+}

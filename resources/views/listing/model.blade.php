@@ -57,9 +57,13 @@
                 </button>
             </div>
             <div class="col-md-10">
-                <h5>LABEL</h5>
-                <div class="textlbel">
-                    <span id="cardlabel"></span>
+                <div class="label-label">
+                    <h5>LABEL</h5>
+                    @foreach($label as $value)
+                    <div class="textlbel">
+                        <span id="cardlabel" style="background-color:{{ $value->color }};">{{ $value->label }}</span>
+                    </div>
+                    @endforeach
                 </div>
                 <div class="dates-date">
                     <h5>DUE DATE</h5>
@@ -83,30 +87,53 @@
                         </div>
                     </div>
                 </div>
-                <h4> Checklist </h4>
+                @foreach($checklist as $checktitle)
+                <div class="check-checklist">
+                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i>{{ $checktitle->title}} </h4></span>
+                     <a class="confirm-delete" href="{{ Route('check.title.delete', $checktitle->id) }}" id="Deletechecklist"
+                        onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a>
+                </div>
                 <div class="progressbar-container">
                     <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="">
                         <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: block; width:;"></div>
                     </div>
                     <span><div class="progressbar-label"></div></span>
                 </div>
-                <div class="checklist-checklist" id="cardchecklist" >
+                <div class="form-check">
+                    @foreach($checktitle->checklist as $value)
 
+                    <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      {{ $value->list }}
+                      <a class="confirm-delete-confirm" href="{{ Route('check.list.delete', $value->id) }}"
+                        onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a>
+                    </label><br >
+                    @endforeach
                 </div>
-                <div class="add-checklist comment" >
-                    <form class="theme-form" id="addchecklist" action="">
-                        <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""/>
+                <div class="add-checklist comment">
+                    <form class="theme-form checklist" id="addchecklist" action="">
+                        <input type="hidden" name="title_id" id="title_id" value="{{ $checktitle->id }}">
+                        <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""hidden/>
                         <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>
                 </div>
-                <h4>
+                @endforeach
+                <div class="activets-activets">
                     <form class="theme-form" id="commentform" action="">
-                        <span class="name-title"> Activets </span>
+                        <h4 class="name-title"> Activets </h4>
                         <input type="text" class="form-control description-comment" name="comment" id="comment" value="" placeholder="Write a Comment">
                         <input type="submit" value="Save" class="menu-menu btn btn-success" style="display: none;" name="submit" id="submit">
                         <button type="button" class="menu-menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                     </form>
-                </h4>
+                        @foreach($comment as $value)
+                            <div class="comment-comment">
+                                <h4> Comment</h4>
+                                <h5>{{ $value->comment }}</h5>
+                                <a class="confirm-delete-confirm" href="{{ Route('comment.delete', $value->id) }}"
+                                onclick="return confirm('Are you sure you want to delete this Comment')" style="margin: 0">Delete</a>
+                            </div>
+                        @endforeach
+                </div>
             </div>
             <p class="addtocart"> Add to Cart </p>
             <div class="row">
@@ -182,7 +209,7 @@
             <div class="modal-body">
                 <form class="theme-form" id="checklistform" action="">
                     <p>Title</p>
-                    <input type="text" class="form-control" name="checklist" id="check" value="">
+                    <input type="text" class="form-control" name="checklist" id="checklist" value="">
                     <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                 </form>
             </div>
@@ -202,7 +229,7 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <p>Attachment</p>
-                    <input type="file" name="select_file" id="select_file"  value="">
+                    <input type="file"   name="select_file[]" id="select_file"  value="">
                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
                     <input tupe="hidden" name="cart_id" id="cart_id" value="">
                     <input type="submit" class="btn btn-success" name="upload" id="submit" value="Upload">
@@ -224,6 +251,29 @@
                 <p>Title</p>
                 <form class="theme-form" id="lablefrom" action="">
                     <input type="text" class="form-control" name="label" id="labe" value=""></br>
+                    <label for="listing" class="control-label"> Color </label>
+                        <div class="store-color">
+                        <label class="container">
+                            <input type="checkbox" value="#ffb000" style="display:none;" name="grayButton" id="grayButton">
+                            <span class="checkmark markcheck"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#026aa7" style="display:none;" name="redButton" id="Buttonred">
+                            <span class="checkmark check"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#bb3c3c" style="display:none;" name="blueButton" id="blueButton">
+                            <span class="checkmark marks"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#ff0000" style="display:none;" name="yellowButton" id="yellowButton">
+                            <span class="checkmark checkmarks"></span>
+                          </label>
+                          <label class="container">
+                            <input type="checkbox" value="#0000ff" style="display:none;" name="redsButton" id="redsButton">
+                            <span class="checkmark checkm"></span>
+                          </label>
+                        </div>
                     <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                 </form>
             </div>
@@ -247,3 +297,4 @@
     </div>
 </div>
 {{-- End Delete Attachment Model --}}
+

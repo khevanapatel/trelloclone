@@ -13,6 +13,7 @@ use App\Models\Board;
 use App\Models\Checktitle;
 Use App\Models\Comment;
 use App\Models\label;
+use Input;
 
 
 // use Validator;
@@ -28,14 +29,15 @@ class ListingController extends Controller
     // Display all Data //
     public function index(Request $request,$id)
     {
+        // return $request->all();
         $label = label::get();
         $carts = Card::get();
         $user = User::get();
         $comment = Comment::get();
         $lists = Board::where('id',$id)->first();
-        $checklist = Checktitle::with('checklist')->get();
+        $check = Checktitle::with('checklist')->get();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
-        return view('listing/index',compact('listings','carts','user','lists','checklist','comment','label'));
+        return view('listing/index',compact('listings','carts','user','check','lists','comment','label'));
     }
 
     public function new()
@@ -142,29 +144,6 @@ class ListingController extends Controller
         }
     }
 
-
-
-    // Store Files //
-    public function storefiles(Request $request)
-    {
-        // return $request->all();
-        $files = new Cartpop();
-        $files->card_id = $request->id;
-
-        // $image = $request->file('select_file');
-        // $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        // $image->move(public_path('files'), $new_name);
-        // $files->select_file = $new_name;
-        // $files->save();
-        $file = $request->select_file;
-        $destinationPath = public_path().'/files/';
-        $filename= rand() . '.'.$file->clientExtension();
-        $file->move($destinationPath, $filename);
-        $files->select_file = $filename;
-        $files->save();
-        return 1234456;
-
-    }
     // Delete Function //
     public function deletefiles($id){
 
@@ -176,57 +155,27 @@ class ListingController extends Controller
     // Get Model Data Display //
     public function getmodel(Request $request)
     {
+        // return $request->all();
         // return $request->cilckid;
-    $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
-    if($cartfile)
+        $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
+        $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
+
+        if($cartfile && $checktitle)
+        {
+            $descr   = $cartfile->description;
+            $carddate = $cartfile->date;
+
+            return response()->json(['success'=>$descr,'carddate'=>$carddate,'descr'=>$descr,'checktitle'=>$checktitle]);
+
+        }
+
+    }
+    public function getchecklist(Request $request)
     {
+        // return $request->all();
+        $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
+        return response()->json(['success'=>$checktitle,]);
 
-    $descr   = $cartfile->description;
-    $comment = $cartfile->comment;
-
-    $label = $cartfile->label;
-
-    $carddate = $cartfile->date;
-
-    $checklist = $cartfile->checklist;
-
-    $checklist = $cartfile->checklist;
-
-    //    foreach($cartfile as $file){
-
-    //         $div.='<span class="labels">'.$file->label.'</span>';
-    //         $di.='<span class="labels">'.$file->label.'</span>';
-
-    //     }
-
-       $date = '';
-
-                // $date .= '<input class="form-check-input" type="checkbox" name="checkbox" id="default">
-                // <span class="date">'.date('d F Y', strtotime(@$cartfile->date)).'</span>';
-
-
-
-    //    $descr = '';
-    //    $comment = '';
-    //    foreach($cartfile as $file)
-    //     {
-    //         $descr   = $file->description;
-    //         $comment = $file->comment;
-
-    //     }
-    //    $img ='';
-    //     foreach($cartfile as $file)
-    //     {
-    //         $img .= '<img src="'.asset('files/'.@$file->select_file).'" class="img-fluid  lazyload product-img">
-    //                     <a class="button-link" data-toggle="modal" data-target="#deletedoc" value="Delete" title="Members">Delete</a>';
-
-    //     }
-
-            // $checklist = '<input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
-            //     <span id="checklist">'.@$cartfile->checklist.'</span><br />';
-
-        // return $img;
-        return response()->json(['success'=>$descr,'label'=>$label,'comment'=>$comment,'checklist'=>$checklist,'carddate'=>$carddate]);
     }
-    }
+
 }

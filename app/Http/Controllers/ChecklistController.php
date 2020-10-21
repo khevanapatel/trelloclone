@@ -8,6 +8,8 @@ Use App\Models\Checklist;
 Use App\Models\Checktitle;
 Use App\Models\Comment;
 use App\Models\label;
+use App\Models\Files;
+
 
 class ChecklistController extends Controller
 {
@@ -73,5 +75,21 @@ class ChecklistController extends Controller
         $label->save();
         return 'label';
     }
+
+     // Store Files //
+     public function storefiles(Request $request)
+     {
+        //  return $request->all();
+         $files = new Files();
+         $files->cart_id = $request->id;
+
+         $image = $request->select_file;
+         $name = time() . $image->getClientOriginalExtension();
+         $image->move(public_path('files'),$name);
+         $files->files = $name;
+         $files->save();
+         return 'files';
+
+     }
 
 }

@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                @foreach($checklist as $checktitle)
+                @foreach($check as $checktitle)
                 <div class="check-checklist">
                     <span> <i class="fa fa-check-square-o" aria-hidden="true"></i>{{ $checktitle->title}} </h4></span>
                      <a class="confirm-delete" href="{{ Route('check.title.delete', $checktitle->id) }}" id="Deletechecklist"
@@ -229,9 +229,8 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <p>Attachment</p>
-                    <input type="file"   name="select_file[]" id="select_file"  value="">
+                    <input type="file"   name="select_file" id="select_file"  value="">
                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-                    <input tupe="hidden" name="cart_id" id="cart_id" value="">
                     <input type="submit" class="btn btn-success" name="upload" id="submit" value="Upload">
                 </div>
             </form>

@@ -35,8 +35,8 @@ Route::post('/listing/edit','ListingController@update')->name('listing.edit');
 Route::get('/listingsdelete/{listing_id}', 'ListingController@destroy');
 Route::get('update/items','ListingController@updateItems')->name('update.items');
 Route::post('update/files','ListingController@storedata')->name('update.files');
-Route::post('files/upload','ListingController@storefiles')->name('files.upload');
 Route::get('delete/files/{id}','ListingController@deletefiles')->name('delete.files');
+Route::post('get/model/checklist','ListingController@getchecklist')->name('get.model.checklist');
 
 // Carts Controller //
 Route::get('listing/{listing_id}/card/new', 'CardsController@new')->name('new.card');
@@ -51,14 +51,15 @@ Route::get('boards','BoardControllers@index')->name('boards');
 Route::post('boards/add','BoardControllers@boardstore')->name('boards.add');
 Route::get('boards/delete/{board_id}','BoardControllers@boarddelete')->name('boards.delete');
 
-// Checklist Controller and Comment data Store,Label Store //
+// Checklist Controller and Comment data Store,Label,Store files store //
 Route::post('check/title','ChecklistController@storetitle')->name('check.title');
 Route::get('check/title/delete/{checktitle_id}','ChecklistController@deletechecktitle')->name('check.title.delete');
-Route::post('check/list', 'ChecklistController@storelist')->name('check.list');
+Route::post('check/list','ChecklistController@storelist')->name('check.list');
 Route::get('check/list/delete/{list_id}','ChecklistController@deletechecklist')->name('check.list.delete');
-Route::post('comment',    'ChecklistController@storecomment')->name('comment');
+Route::post('comment','ChecklistController@storecomment')->name('comment');
 Route::get('comment/delete/{comment_id}','ChecklistController@commentdelete')->name('comment.delete');
-Route::post('label',      'ChecklistController@storelabel')->name('label');
+Route::post('label','ChecklistController@storelabel')->name('label');
+Route::post('files/upload','ChecklistController@storefiles')->name('files.upload');
 
 
 

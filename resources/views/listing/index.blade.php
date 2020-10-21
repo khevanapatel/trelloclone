@@ -89,6 +89,23 @@
 
     <script type="text/javascript"/>
 
+    $(".cardWrappers").click(function() {
+        var cilckid = $(this).attr('cart_id');
+
+        $.ajax({
+            url: "{{ Route('get.model.checklist') }}",
+            method: "post",
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'cilckid': cilckid,
+            },
+            success: function(response) {
+                console.log(response.success);
+            }
+
+        });
+    });
+
 
     $(".cardWrappers").click(function() {
         var cilckid = $(this).attr('cart_id');
@@ -190,9 +207,21 @@
 
                 },
                 success: function(response) {
+                    console.log(response.success);
+
                     if(response.success) {
 
-                        $("#show").val(response.success);
+                        $("#show").val(response.checktitle);
+                    }
+                    else
+                    {
+                        $("#show").val('');
+
+                    }
+
+                    if(response.descr) {
+
+                        $("#show").val(response.descr);
                     }
                     else
                     {
@@ -215,6 +244,19 @@
                     {
                         $("#cardlabel").html('');
                     }
+                    if(response.title)
+                    {
+                        $("#titles").text(response.title);
+                        $("#titles").html(response.title);
+                        $("#titles").val(response.title);
+                    }
+                    else
+                    {
+                        $("#titles").text('');
+                        $("#titles").html('');
+                        $("#titles").val('');
+
+                    }
 
                 }
 
@@ -222,18 +264,14 @@
 
             $('#upload_form').on('submit', function(event) {
                 event.preventDefault();
-                alert('hii');
-                var _token = $('input#_token').val();
-                var select_file = $('input#select_file').val();
-                alert(select_file);
-                var formData = new FormData();
-                formData.append("_token", _token);
-                formData.append("id",id);
-                formData.append("upload_form").files['0'].select_file;
+                let formData = new FormData($('#upload_form')[0]);
+                let file = $('input[type=file]')[0].files[0];
+                formData.append('file', file)
+                formData.append('id', id)
 
                 $.ajax({
                       url:"{{ route('files.upload') }}",
-                      data : formData,
+                      data :formData,
                       dataType:'json',
                       async:false,
                       type:'post',

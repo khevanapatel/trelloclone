@@ -31,7 +31,7 @@ Route::post('/get/model','ListingController@getmodel')->name('get.model');
 Route::get('/new','ListingController@new')->name('new');
 Route::post('/listings','ListingController@store')->name('listings');
 Route::get('/listingsedit/{listing_id}', 'ListingController@edit')->name('listings.edit');
-Route::post('/listing/edit','ListingController@update')->name('listing.edit');
+Route::post('/listing/update','ListingController@update')->name('listing.update');
 Route::get('/listingsdelete/{listing_id}', 'ListingController@destroy');
 Route::get('update/items','ListingController@updateItems')->name('update.items');
 Route::post('update/files','ListingController@storedata')->name('update.files');

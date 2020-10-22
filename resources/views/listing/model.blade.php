@@ -89,8 +89,8 @@
                 </div>
                 @foreach($check as $checktitle)
                 <div class="check-checklist">
-                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i>{{ $checktitle->title}} </h4></span>
-                     <a class="confirm-delete" href="{{ Route('check.title.delete', $checktitle->id) }}" id="Deletechecklist"
+                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i> </h4>{{ $checktitle->title }}</span>
+                     <a class="confirm-delete" href="" id="Deletechecklist"
                         onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a>
                 </div>
                 <div class="progressbar-container">
@@ -99,20 +99,20 @@
                     </div>
                     <span><div class="progressbar-label"></div></span>
                 </div>
-                <div class="form-check">
+                <div class="form-check" id="pr_result_pr">
                     @foreach($checktitle->checklist as $value)
 
-                    <input class="form-check-input" type="checkbox" name="checkbox" id="defaultCheck1">
+                    <input class="form-check-input" type="checkbox" name="checkbox-checklist" id="defaultCheck1">
                     <label class="form-check-label" for="defaultCheck1">
                       {{ $value->list }}
-                      <a class="confirm-delete-confirm" href="{{ Route('check.list.delete', $value->id) }}"
+                      <a class="confirm-delete-confirm" href=""
                         onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a>
                     </label><br >
                     @endforeach
                 </div>
-                <div class="add-checklist comment">
+                <div class="add-checklist comment" id="pr_result">
                     <form class="theme-form checklist" id="addchecklist" action="">
-                        <input type="hidden" name="title_id" id="title_id" value="{{ $checktitle->id }}">
+                        <input type="hidden" name="title_id" id="title_id" value="{{$checktitle->id}}">
                         <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""hidden/>
                         <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>

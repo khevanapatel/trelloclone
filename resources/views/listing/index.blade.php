@@ -25,6 +25,9 @@
         .comment-comment {
             margin-bottom: 15px;
         }
+        img.image-image {
+            margin-bottom: 15px;
+        }
     </style>
 @endsection
 
@@ -55,7 +58,7 @@
                         <div class="list_header_action">
                             <a onclick="return confirm('{{ $listing->title }} delete?')"
                                 href="{{ url('/listingsdelete', $listing->id) }}"><i class="fas fa-trash"></i></a>
-                            <a href="{{ url('/listingsedit', $listing->id) }}"><i class="fas fa-pen"></i></a>
+                                <a href="#"  data-toggle="modal" class="listing-edit" lising_id="{{ $listing->id }}" data-target="#editlist"><i class="fas fa-pen" ></i></a>
                         </div>
                     </div>
                     <div class="cardWrapper">
@@ -63,9 +66,9 @@
                             <div class="cardDetail_link">
                                 <div class="card" draggable="true">
                                     <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
-                                        <h3 class="card_title">{{ $card->title }}</h3>
+                                        <h3  class="card_title">{{ $card->title }}</h3>
                                         <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
-                                        <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" lising_id="{{ $listing->id }}" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
+                                        <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
                                     </a>
                                 </div>
                             </div>
@@ -78,6 +81,35 @@
             @endforeach
             @include('listing.model')
         </div>
+        <div class="modal fade editlist" id="editlist" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form  id="edit_list" method="POST" class="form-horizontal">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <label for="listing" class="col-sm-3 control-label">List name</label>
+                                <div class="col-sm-6">
+                                    {{--List name--}}
+                                    <input type="text" name="list_name" id="list_name" value="{{old('list_name',$listing->title)}}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-6">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-saved"></i>Update
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -88,6 +120,32 @@
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript"/>
+    $(".listing-edit").click(function(){
+        var lising_id = $("#lising_id").val();
+        alert(lising_id);
+        $('#edit_list').on('submit', function(event) {
+            event.preventDefault();
+            var list_name = $("#list_name").val();
+            var lising_id = $("#lising_id").val()
+
+            $.ajax({
+                url: "<?=url('listing/update')?>",
+                method: "post",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'list_name': $("#list_name").val(),
+                    'lising_id':$("#lising_id").val(),
+                },
+                success: function(response) {
+                    console.log('success');
+                    //location.reload(true);//
+
+                }
+
+            });
+        });
+
+    })
 
     $(".cardWrappers").click(function() {
         var cilckid = $(this).attr('cart_id');
@@ -101,6 +159,10 @@
             },
             success: function(response) {
                 console.log(response.success);
+                /*$.each(response.success, function(index) {
+                    $("#pr_result").append(response.success[title].title);
+                    $("#pr_result_pr").append(response.success[checklist].title);
+                });*/
             }
 
         });
@@ -166,7 +228,7 @@
                 var count = 0;
                 var checked = 0;
                 function countBoxes() {
-                count = $("input[type='checkbox']").length;
+                count = $("input[name='checkbox-checklist']").length;
                 console.log(count);
             }
 
@@ -208,7 +270,6 @@
                 },
                 success: function(response) {
                     console.log(response.success);
-
                     if(response.success) {
 
                         $("#show").val(response.checktitle);
@@ -244,19 +305,6 @@
                     {
                         $("#cardlabel").html('');
                     }
-                    if(response.title)
-                    {
-                        $("#titles").text(response.title);
-                        $("#titles").html(response.title);
-                        $("#titles").val(response.title);
-                    }
-                    else
-                    {
-                        $("#titles").text('');
-                        $("#titles").html('');
-                        $("#titles").val('');
-
-                    }
 
                 }
 
@@ -267,8 +315,8 @@
                 let formData = new FormData($('#upload_form')[0]);
                 let file = $('input[type=file]')[0].files[0];
                 formData.append('file', file)
-                formData.append('id', id)
 
+                formData.append('id', id)
                 $.ajax({
                       url:"{{ route('files.upload') }}",
                       data :formData,
@@ -279,6 +327,7 @@
                       contentType: false,
                       success:function(response){
                         console.log(response);
+                        location.reload(true);
                       },
                     });
                  });
@@ -321,6 +370,7 @@
                     },
                     success: function(response) {
                         console.log('success');
+                        location.reload(true);
                     }
 
                 });
@@ -341,7 +391,8 @@
 
                     },
                     success: function(response) {
-                            console.log('success');
+                        console.log('success');
+                        location.reload(true);
                     }
 
                 });
@@ -362,6 +413,7 @@
                     },
                     success:function(response){
                         console.log('success');
+                        location.reload(true);
                     }
                 });
             });
@@ -387,6 +439,7 @@
                     },
                     success:function(response){
                         console.log('success');
+                        location.reload(true);
                     }
                 });
             });
@@ -405,6 +458,7 @@
                         },
                         success:function(response){
                             console.log('success');
+                            location.reload(true);
                         }
                     });
                 });
@@ -420,6 +474,7 @@
                     },
                     success: function (){
                         console.log("it Works");
+                        location.reload(true);
                     }
                 });
 
@@ -440,6 +495,7 @@
                         },
                         success: function(response) {
                             console.log('success');
+                            location.reload(true);
                         }
                     });
                 });

@@ -13,6 +13,7 @@ use App\Models\Board;
 use App\Models\Checktitle;
 Use App\Models\Comment;
 use App\Models\label;
+use App\Models\Files;
 use Input;
 
 
@@ -34,10 +35,11 @@ class ListingController extends Controller
         $carts = Card::get();
         $user = User::get();
         $comment = Comment::get();
+        $file = Files::get();
         $lists = Board::where('id',$id)->first();
         $check = Checktitle::with('checklist')->get();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
-        return view('listing/index',compact('listings','carts','user','check','lists','comment','label'));
+        return view('listing/index',compact('listings','carts','user','lists','check','comment','label','file'));
     }
 
     public function new()
@@ -75,6 +77,7 @@ class ListingController extends Controller
     // Update List //
     public function update(Request $request)
     {
+        return $request->all();
         $validator = Validator::make($request->all(),['list_name'=>'required|max:255']);
 
         if ($validator->fails()){
@@ -83,7 +86,7 @@ class ListingController extends Controller
 
         $listing = Listing::find($request->id);
         $listing->title = $request->list_name;
-        $listing->save();
+        $listing->update();
         return redirect()->back();
     }
 
@@ -166,15 +169,13 @@ class ListingController extends Controller
             $carddate = $cartfile->date;
 
             return response()->json(['success'=>$descr,'carddate'=>$carddate,'descr'=>$descr,'checktitle'=>$checktitle]);
-
         }
 
     }
     public function getchecklist(Request $request)
     {
-        // return $request->all();
         $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
-        return response()->json(['success'=>$checktitle,]);
+        view('listing/model',compact('checktitle'));
 
     }
 

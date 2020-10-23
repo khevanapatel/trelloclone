@@ -66,15 +66,15 @@ class CardsController extends Controller
     public function updatecard(Request $request)
     {
 
+        // return $request->all();
         $card = Card::find($request->cardid);
         $card->title = $request->title;
-        $card->listing_id = $request->lisingid;
         $card->save();
         return 1;
     }
 
     // Delete Cards //
-    public function destroy($listing_id, $card_id)
+    public function destroy($card_id)
     {
         $card = Card::find($card_id);
         $card->delete();

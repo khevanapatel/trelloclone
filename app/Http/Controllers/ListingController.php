@@ -77,17 +77,17 @@ class ListingController extends Controller
     // Update List //
     public function update(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $validator = Validator::make($request->all(),['list_name'=>'required|max:255']);
 
         if ($validator->fails()){
             return redirect()->back()->withErros($validator->errors())->withInput();
         }
-
-        $listing = Listing::find($request->id);
+        // return $request->all();
+        $listing = Listing::find($request->list_id);
         $listing->title = $request->list_name;
         $listing->update();
-        return redirect()->back();
+        return 123;
     }
 
     // Delete Listing //
@@ -161,21 +161,24 @@ class ListingController extends Controller
         // return $request->all();
         // return $request->cilckid;
         $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
-        $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
-
-        if($cartfile && $checktitle)
+        if($cartfile)
         {
             $descr   = $cartfile->description;
             $carddate = $cartfile->date;
 
-            return response()->json(['success'=>$descr,'carddate'=>$carddate,'descr'=>$descr,'checktitle'=>$checktitle]);
+            return response()->json(['success'=>$descr,'carddate'=>$carddate,'descr'=>$descr]);
         }
 
     }
     public function getchecklist(Request $request)
     {
-        $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
-        view('listing/model',compact('checktitle'));
+        // return $request->all();
+            $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
+            if($checktitle)
+            {
+                $data = $checktitle;
+                return view('listing/index')->with($data);
+            }
 
     }
 

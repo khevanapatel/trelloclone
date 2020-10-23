@@ -28,87 +28,68 @@
         img.image-image {
             margin-bottom: 15px;
         }
+        input.form-control.list-text {
+            width: 215px;
+            height: 35px;
+            text-align: center;
+            margin-top: -25px;
+        }
+        .form-horizontal .form-group {
+            margin-left: -57px;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="topPage" style="background-color:{{ $lists->image }};">
-        <form action="{{url('listings')}}" method="POST" class="form-horizontal">
-            <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
-            {{csrf_field()}}
-            <div class="form-group">
-                <label for="listing" class="col-sm-3 control-label">List name</label>
-                <div class="col-sm-6">
-                    <input type="text" name="list_name" class="form-control" value="{{old('list_name')}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
-                    <button type="submit" class="btn btn-default">
-                        <i class="glyphicon glyphicon-plus"></i>Create
-                    </button>
-                </div>
-            </div>
-        </form>
         <div class="listWrapper">
             @foreach ($listings as $listing)
-                <div class="list">
-                    <div class="list_header">
-                        <h2 class="list_header_title">{{ $listing->title }}</h2>
-                        <div class="list_header_action">
-                            <a onclick="return confirm('{{ $listing->title }} delete?')"
-                                href="{{ url('/listingsdelete', $listing->id) }}"><i class="fas fa-trash"></i></a>
-                                <a href="#"  data-toggle="modal" class="listing-edit" lising_id="{{ $listing->id }}" data-target="#editlist"><i class="fas fa-pen" ></i></a>
-                        </div>
-                    </div>
-                    <div class="cardWrapper">
-                        @foreach ($listing->cards as $card)
-                            <div class="cardDetail_link">
-                                <div class="card" draggable="true">
-                                    <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
-                                        <h3  class="card_title">{{ $card->title }}</h3>
-                                        <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
-                                        <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                        <div class="add_Card">
-                            <a href="#CartModals" role="button" class="cardWrappers" data-toggle="modal" list_id="{{ $listing->id }}"> +Add carts </a>
-                        </div>
+            <div class="list">
+                <div class="list_header">
+                    <h2 class="list_header_title">{{ $listing->title }}</h2>
+                    <div class="list_header_action">
+                        <a onclick="return confirm('{{ $listing->title }} delete?')"
+                            href="{{ url('/listingsdelete', $listing->id) }}"><i class="fas fa-trash"></i></a>
+                            <a href="#"  data-toggle="modal" class="cardWrappers" list_id="{{ $listing->id }}" data-target="#editlist"><i class="fas fa-pen" ></i></a>
                     </div>
                 </div>
-            @endforeach
-            @include('listing.model')
-        </div>
-        <div class="modal fade editlist" id="editlist" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Edit List</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form  id="edit_list" method="POST" class="form-horizontal">
-                            {{csrf_field()}}
-                            <div class="form-group">
-                                <label for="listing" class="col-sm-3 control-label">List name</label>
-                                <div class="col-sm-6">
-                                    {{--List name--}}
-                                    <input type="text" name="list_name" id="list_name" value="{{old('list_name',$listing->title)}}" class="form-control">
-                                </div>
+                <div class="cardWrapper">
+                    @foreach ($listing->cards as $card)
+                        <div class="cardDetail_link">
+                            <div class="card" draggable="true">
+                                <a href="#myModal" role="button" class="cardWrappers" data-toggle="modal" cart_id="{{ $card->id }}">
+                                    <h3  class="card_title">{{ $card->title }}</h3>
+                                    <div class="card_detail is-exist"><i class="fas fa-bars"></i></div>
+                                    <div class="card_detail is-exist left"><a class="cardDetail_link cardWrappers" cart_id="{{ $card->id }}"   data-toggle="modal" data-target="#CartEditModals"><i class="fas fa-pen"></i></a></div>
+                                </a>
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-6">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="glyphicon glyphicon-saved"></i>Update
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                    @endforeach
+                    <div class="add_Card">
+                        <a href="#CartModals" role="button" class="cardWrappers" data-toggle="modal" list_id="{{ $listing->id }}"> +Add carts </a>
                     </div>
                 </div>
             </div>
+            @endforeach
+            @include('listing.model')
+
+            <form action="{{ route('listings') }}"  method="POST" class="form-horizontal">
+                <input type="hidden" name="board_id" id="board_id" value="{{@$lists->id}}">
+                {{csrf_field()}}
+                <div class="form-group list-from">
+                    <label for="listing" class="col-sm-3 control-label"></label>
+                    <div class="col-sm-6">
+                        <input type="text" name="list_name" class="form-control list-text" placeholder="Enter List Name " value="{{old('list_name')}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="submit" class="btn btn-default">
+                            <i class="glyphicon glyphicon-plus"></i>Create
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -120,32 +101,27 @@
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript"/>
-    $(".listing-edit").click(function(){
-        var lising_id = $("#lising_id").val();
-        alert(lising_id);
-        $('#edit_list').on('submit', function(event) {
-            event.preventDefault();
-            var list_name = $("#list_name").val();
-            var lising_id = $("#lising_id").val()
 
-            $.ajax({
-                url: "<?=url('listing/update')?>",
-                method: "post",
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'list_name': $("#list_name").val(),
-                    'lising_id':$("#lising_id").val(),
-                },
-                success: function(response) {
-                    console.log('success');
-                    //location.reload(true);//
-
-                }
-
-            });
+    $(document).ready(function() {
+        $("#myButton").click(function() {
+            alert('hiii');
+          $("#textInput").show();
         });
+      });
 
-    })
+    function showInputBox() {
+        if (document.getElementById("textInput")) {
+          document.getElementById("textInput").style.display = 'block';
+          location.relorad
+        } else {
+            //IF INPUT BOX DOES NOT EXIST
+          var inputBox = document.createElement("INPUT");
+          inputBox.setAttribute("type", "text");
+          inputBox.setAttribute("id", "dynamicTextInput");
+          document.body.appendChild(inputBox);
+          alert("No");
+        }
+      }
 
     $(".cardWrappers").click(function() {
         var cilckid = $(this).attr('cart_id');
@@ -175,8 +151,6 @@
         var list_id = $(this).attr('lising_id');
         $("#cardid").val(id);
         $("#lisingid").val(list_id);
-    });
-
 
     $('#editformcart').on('submit', function(event) {
         event.preventDefault();
@@ -198,10 +172,11 @@
                 console.log('success');
                 location.reload(true);
 
-            }
 
+            }
         });
     });
+});
 
     function showInputBox() {
         if (document.getElementById("textInput")) {
@@ -343,6 +318,25 @@
                     data: {
                         '_token': "{{ csrf_token() }}",
                         'card_title': card_title,
+                        'list_id': list_id,
+                    },
+                    success: function(response) {
+                        console.log('success');
+                        location.reload(true);
+                    }
+
+                });
+            });
+
+            $('#Editlisting').on('submit', function(event) {
+                event.preventDefault();
+                var list_name = $("#list_name").val();
+                $.ajax({
+                    url: "{{ Route('listing.update')}}",
+                    method: "post",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'list_name': list_name,
                         'list_id': list_id,
                     },
                     success: function(response) {

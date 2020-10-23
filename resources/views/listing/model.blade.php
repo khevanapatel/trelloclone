@@ -1,3 +1,34 @@
+{{-- Start Edit Listing Model --}}
+<div class="modal fade editlist" id="editlist" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit List</h4>
+            </div>
+            <div class="modal-body">
+                <form  id="Editlisting" method="POST" class="form-horizontal">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <label for="listing" class="col-sm-3 control-label">List name</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="list_name" id="list_name" value="" class="form-control">
+                            <input type="hidden" name="listing_id" id="listingId" value="{{$listing->id}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button type="submit" class="btn btn-success">
+                                <i class="glyphicon glyphicon-saved"></i>Update
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Edit Listing Model --}}
 {{-- Start Add Carts Model --}}
 <div id="CartModals" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">

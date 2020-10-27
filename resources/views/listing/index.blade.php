@@ -134,11 +134,11 @@
                 'cilckid': cilckid,
             },
             success: function(response) {
-                console.log(response.success);
-                /*$.each(response.success, function(index) {
-                    $("#pr_result").append(response.success[title].title);
-                    $("#pr_result_pr").append(response.success[checklist].title);
-                });*/
+                $("#divid").append(response.success);
+                $("#divlist").append(response.list);
+                $("#divcomment").append(response.com);
+                $("#divlabel").append(response.labs);
+                $("#divfile").append(response.select);
             }
 
         });

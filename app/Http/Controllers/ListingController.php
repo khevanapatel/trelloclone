@@ -34,9 +34,9 @@ class ListingController extends Controller
         $label = label::get();
         $carts = Card::get();
         $user = User::get();
-        $comment = Comment::get();
         $file = Files::get();
         $lists = Board::where('id',$id)->first();
+        $comment = Comment::get();
         $check = Checktitle::with('checklist')->get();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
         return view('listing/index',compact('listings','carts','user','lists','check','comment','label','file'));
@@ -158,8 +158,6 @@ class ListingController extends Controller
     // Get Model Data Display //
     public function getmodel(Request $request)
     {
-        // return $request->all();
-        // return $request->cilckid;
         $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
         if($cartfile)
         {
@@ -172,14 +170,49 @@ class ListingController extends Controller
     }
     public function getchecklist(Request $request)
     {
-        // return $request->all();
             $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
-            if($checktitle)
-            {
-                $data = $checktitle;
-                return view('listing/index')->with($data);
+            $comment = Comment::where('cart_id',$request->cilckid)->get();
+            $label = label::where('cart_id',$request->cilckid)->get();
+            $file = Files::where('cart_id',$request->cilckid)->get();
+            $div ='';
+            $list = '';
+            $com = '';
+            $labs = '';
+            $select = '';
+            if($checktitle){
+                foreach($checktitle as $check){
+
+                    $div .= $check->title.'<br>';
+
+                    foreach($check->checklist as $listname){
+
+                        if($check->id == $listname->title_id){
+
+                            $list .= '<input type="checkbox" name="checklist" id="checklist" value'.$listname->id.'>'.$listname->list.'</br>';
+                        }
+                    }
+                }
             }
 
+            if($comment){
+                foreach($comment as $comm){
+
+                    $com .= $comm->id.$comm->comment.'<br>';
+                }
+            }
+            if($label){
+                foreach($label as $lab){
+
+                    $labs .= $lab->label.'<br>';
+                }
+            }
+            if($file){
+                foreach($file as $files){
+
+                    $select .= ' <img src="'.asset('files/'.$files->files).'" height="80" width="80">'.'<br>';
+                }
+            }
+            return response()->json(['success'=> $div, 'list'=>$list,'com'=>$com,'labs'=>$labs,'select'=>$select]);
     }
 
 }

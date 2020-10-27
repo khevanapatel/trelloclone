@@ -90,11 +90,11 @@
             <div class="col-md-10">
                 <div class="label-label">
                     <h5>LABEL</h5>
-                    @foreach($label as $value)
-                    <div class="textlbel">
-                        <span id="cardlabel" style="background-color:{{ $value->color }};">{{ $value->label }}</span>
+                    {{-- @foreach($label as $value) --}}
+                    <div class="textlbel" id="divlabel">
+                        <span class="labels-labels" style="background-image:"></span>
                     </div>
-                    @endforeach
+                    {{-- @endforeach --}}
                 </div>
                 <div class="dates-date">
                     <h5>DUE DATE</h5>
@@ -114,15 +114,15 @@
                 <div class="attachment">
                     <div class="images image">
                         <h4>Attachment</h4>
-                        <div class="center-image" id="select_file">
+                        <div class="center-image" id="divfile">
                         </div>
                     </div>
                 </div>
-                @foreach($check as $checktitle)
-                <div class="check-checklist">
-                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i> </h4>{{ $checktitle->title }}</span>
-                     <a class="confirm-delete" href="" id="Deletechecklist"
-                        onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a>
+                {{-- @foreach($check as $checktitle) --}}
+                <div class="check-checklist" id="divid">
+                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i> </h4></span>
+                     {{-- <a class="confirm-delete" href="" id="Deletechecklist"
+                        onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a> --}}
                 </div>
                 <div class="progressbar-container">
                     <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="">
@@ -131,24 +131,23 @@
                     <span><div class="progressbar-label"></div></span>
                 </div>
                 <div class="form-check" id="pr_result_pr">
-                    @foreach($checktitle->checklist as $value)
+                    {{-- @foreach($checktitle->checklist as $value) --}}
 
-                    <input class="form-check-input" type="checkbox" name="checkbox-checklist" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      {{ $value->list }}
-                      <a class="confirm-delete-confirm" href=""
-                        onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a>
+                    <label class="form-check-label" for="defaultCheck1" id="divlist">
+                      {{-- {{ $value->list }} --}}
+                      {{-- <a class="confirm-delete-confirm" href=""
+                        onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a> --}}
                     </label><br >
-                    @endforeach
+                    {{-- @endforeach --}}
                 </div>
                 <div class="add-checklist comment" id="pr_result">
                     <form class="theme-form checklist" id="addchecklist" action="">
-                        <input type="hidden" name="title_id" id="title_id" value="{{$checktitle->id}}">
+                        <input type="hidden" name="title_id" id="title_id" value="">
                         <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""hidden/>
-                        <input type="submit" id="myButton" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
+                        <input type="submit" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>
                 </div>
-                @endforeach
+                {{-- @endforeach --}}
                 <div class="activets-activets">
                     <form class="theme-form" id="commentform" action="">
                         <h4 class="name-title"> Activets </h4>
@@ -156,14 +155,14 @@
                         <input type="submit" value="Save" class="menu-menu btn btn-success" style="display: none;" name="submit" id="submit">
                         <button type="button" class="menu-menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                     </form>
-                        @foreach($comment as $value)
-                            <div class="comment-comment">
+                        {{-- @foreach($comment as $value) --}}
+                            <div class="comment-comment" id="divcomment">
                                 <h4> Comment</h4>
-                                <h5>{{ $value->comment }}</h5>
-                                <a class="confirm-delete-confirm" href="{{ Route('comment.delete', $value->id) }}"
-                                onclick="return confirm('Are you sure you want to delete this Comment')" style="margin: 0">Delete</a>
+                                {{-- <h5>{{ $value->comment }}</h5> --}}
+                                {{-- <a class="confirm-delete-confirm" href=""
+                                onclick="return confirm('Are you sure you want to delete this Comment')" style="margin: 0">Delete</a> --}}
                             </div>
-                        @endforeach
+                        {{-- @endforeach --}}
                 </div>
             </div>
             <p class="addtocart"> Add to Cart </p>

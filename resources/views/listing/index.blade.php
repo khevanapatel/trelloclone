@@ -44,7 +44,7 @@
     <div class="topPage" style="background-color:{{ $lists->image }};">
         <div class="listWrapper">
             @foreach ($listings as $listing)
-            <div class="list">
+            <div class="list empty">
                 <div class="list_header">
                     <h2 class="list_header_title">{{ $listing->title }}</h2>
                     <div class="list_header_action">
@@ -139,6 +139,8 @@
                 $("#divcomment").append(response.com);
                 $("#divlabel").append(response.labs);
                 $("#divfile").append(response.select);
+                $("#show").val(response.descr);
+                $("#carddate").append(response.carddate);
             }
 
         });
@@ -171,8 +173,6 @@
             success: function(response) {
                 console.log('success');
                 location.reload(true);
-
-
             }
         });
     });
@@ -234,56 +234,6 @@
             var id = $(this).attr('cart_id');
             $("#cardid").val(id);
             var list_id = $(this).attr('list_id');
-
-            $.ajax({
-                url: "{{ Route('get.model') }}",
-                method: "post",
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'cilckid': cilckid,
-
-                },
-                success: function(response) {
-                    console.log(response.success);
-                    if(response.success) {
-
-                        $("#show").val(response.checktitle);
-                    }
-                    else
-                    {
-                        $("#show").val('');
-
-                    }
-
-                    if(response.descr) {
-
-                        $("#show").val(response.descr);
-                    }
-                    else
-                    {
-                        $("#show").val('');
-
-                    }
-                    if(response.carddate){
-                        $("#carddate").text(response.carddate);
-                        $("#card_date").val(response.carddate);
-                    }
-                    else{
-                        $("#carddate").text('');
-                    }
-                    if(response.label)
-                    {
-                        $("#cardlabel").html(response.label);
-                        $("#card_label").val(response.label);
-                    }
-                    else
-                    {
-                        $("#cardlabel").html('');
-                    }
-
-                }
-
-            });
 
             $('#upload_form').on('submit', function(event) {
                 event.preventDefault();
@@ -386,7 +336,7 @@
                     },
                     success: function(response) {
                         console.log('success');
-                        location.reload(true);
+                        /*location.reload(true);*/
                     }
 
                 });

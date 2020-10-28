@@ -156,24 +156,13 @@ class ListingController extends Controller
     }
 
     // Get Model Data Display //
-    public function getmodel(Request $request)
-    {
-        $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
-        if($cartfile)
-        {
-            $descr   = $cartfile->description;
-            $carddate = $cartfile->date;
-
-            return response()->json(['success'=>$descr,'carddate'=>$carddate,'descr'=>$descr]);
-        }
-
-    }
     public function getchecklist(Request $request)
     {
             $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
             $comment = Comment::where('cart_id',$request->cilckid)->get();
             $label = label::where('cart_id',$request->cilckid)->get();
             $file = Files::where('cart_id',$request->cilckid)->get();
+            $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
             $div ='';
             $list = '';
             $com = '';
@@ -189,6 +178,7 @@ class ListingController extends Controller
                         if($check->id == $listname->title_id){
 
                             $list .= '<input type="checkbox" name="checklist" id="checklist" value'.$listname->id.'>'.$listname->list.'</br>';
+
                         }
                     }
                 }
@@ -212,7 +202,12 @@ class ListingController extends Controller
                     $select .= ' <img src="'.asset('files/'.$files->files).'" height="80" width="80">'.'<br>';
                 }
             }
-            return response()->json(['success'=> $div, 'list'=>$list,'com'=>$com,'labs'=>$labs,'select'=>$select]);
+            if($cartfile)
+            {
+                $descr   = $cartfile->description;
+                $carddate = $cartfile->date;
+            }
+            return response()->json(['success'=> $div, 'list'=>$list,'com'=>$com,'labs'=>$labs,'select'=>$select,'descr'=>$descr,'carddate'=>$carddate]);
     }
 
 }

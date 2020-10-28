@@ -32,7 +32,6 @@ class ChecklistController extends Controller
 
     public function storelist(Request $request)
     {
-        // return $request->all();
         $checklist =  new Checklist;
         $checklist->list = $request->list;
         $checklist->title_id = $request->title_id;
@@ -49,7 +48,6 @@ class ChecklistController extends Controller
 
     public function storecomment(Request $request)
     {
-        // return $request->all();
         $comment = new Comment;
         $comment->cart_id = $request->id;
         $comment->comment = $request->comment;
@@ -67,7 +65,7 @@ class ChecklistController extends Controller
 
     public function storelabel(Request $request)
     {
-        // return $request->all();
+
         $label = new label;
         $label->cart_id = $request->id;
         $label->label = $request->label;
@@ -79,7 +77,7 @@ class ChecklistController extends Controller
      // Store Files //
      public function storefiles(Request $request)
      {
-        //  return $request->all();
+
          $files = new Files();
          $files->cart_id = $request->id;
 

@@ -50,6 +50,7 @@ Route::get('listing/{listing_id}/card/{card_id}/delete', 'CardsController@destro
 Route::get('boards','BoardControllers@index')->name('boards');
 Route::post('boards/add','BoardControllers@boardstore')->name('boards.add');
 Route::get('boards/delete/{board_id}','BoardControllers@boarddelete')->name('boards.delete');
+Route::get('testing','BoardControllers@testing')->name('testing');
 
 // Checklist Controller and Comment data Store,Label,Store files store //
 Route::post('check/title','ChecklistController@storetitle')->name('check.title');

@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- @foreach($check as $checktitle) --}}
+                @foreach($check as $checktitle)
                 <div class="check-checklist" id="divid">
                     <span> <i class="fa fa-check-square-o" aria-hidden="true"></i> </h4></span>
                      {{-- <a class="confirm-delete" href="" id="Deletechecklist"
@@ -142,12 +142,12 @@
                 </div>
                 <div class="add-checklist comment" id="pr_result">
                     <form class="theme-form checklist" id="addchecklist" action="">
-                        <input type="hidden" name="title_id" id="title_id" value="">
+                        <input type="hidden" name="title_id" id="title_id" value="{{$checktitle->id}}">
                         <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""hidden/>
                         <input type="submit" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>
                 </div>
-                {{-- @endforeach --}}
+                @endforeach
                 <div class="activets-activets">
                     <form class="theme-form" id="commentform" action="">
                         <h4 class="name-title"> Activets </h4>

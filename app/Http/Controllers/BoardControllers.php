@@ -44,5 +44,10 @@ class BoardControllers extends Controller
         return redirect()->back();
     }
 
+    public function testing()
+    {
+        return view('board.testing');
+    }
+
 
 }

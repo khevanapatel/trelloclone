@@ -11,8 +11,6 @@
     <div class="text-text">
         <p> Please choose Your Board </p>
     </div>
-
-
     <div class="col-sm-offset-3 col-sm-6">
         @foreach($board as  $boards)
             <a href="{{ url('cart/'.$boards->id) }}">

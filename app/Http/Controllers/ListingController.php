@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\view;
+use Illuminate\Support\Facades\Input;
 use App\Models\Listing;
 use App\Models\Cartpop;
 use App\Models\Card;
@@ -14,11 +17,8 @@ use App\Models\Checktitle;
 Use App\Models\Comment;
 use App\Models\label;
 use App\Models\Files;
-use Input;
-
 
 // use Validator;
-
 class ListingController extends Controller
 {
     public function __construct()
@@ -31,15 +31,16 @@ class ListingController extends Controller
     public function index(Request $request,$id)
     {
         // return $request->all();
-        $label = label::get();
-        $carts = Card::get();
-        $user = User::get();
-        $file = Files::get();
-        $lists = Board::where('id',$id)->first();
-        $comment = Comment::get();
-        $check = Checktitle::with('checklist')->get();
+        $label    = label::get();
+        $carts    = Card::get();
+        $user     = User::get();
+        $file     = Files::get();
+        $lists    = Board::where('id',$id)->first();
+        $comment  = Comment::get();
+        $check    = Checktitle::with('checklist')->get();
+        $cartfile = Cartpop::get();
         $listings = Listing::with('board')->where('user_id',Auth::user()->id)->where('board_id',$id)->orderBy('created_at','asc')->get();
-        return view('listing/index',compact('listings','carts','user','lists','check','comment','label','file'));
+        return view('listing/index',compact('listings','carts','user','lists','check','comment','label','file','cartfile'));
     }
 
     public function new()
@@ -77,13 +78,13 @@ class ListingController extends Controller
     // Update List //
     public function update(Request $request)
     {
-        // return $request->all();
+
         $validator = Validator::make($request->all(),['list_name'=>'required|max:255']);
 
         if ($validator->fails()){
             return redirect()->back()->withErros($validator->errors())->withInput();
         }
-        // return $request->all();
+
         $listing = Listing::find($request->list_id);
         $listing->title = $request->list_name;
         $listing->update();
@@ -107,11 +108,9 @@ class ListingController extends Controller
         {
             $file= new  Cartpop();
             $file->description = $request->show;
-            $file->comment     = $request->comment;
-            $file->checklist   = $request->textInput;
-            $file->label       = $request->label;
             $file->date        = $request->start;
             $file->card_id     = $request->id;
+            $file->cover       = $request->cover;
             $file->save();
             return 'added';
 
@@ -122,23 +121,15 @@ class ListingController extends Controller
             {
                 $cart->description = $request->show;
             }
-            if($request->comment != null)
-            {
-                $cart->comment = $request->comment;
-            }
-            if($request->textInput != null)
-            {
-                $cart->checklist = $request->textInput;
-            }
-            if($request->label != null)
-            {
-                $cart->label = $request->label;
-            }
             if($request->start != null)
             {
                 $cart->date = $request->start;
             }
-            if($request->start != null)
+            if($request->cover != null)
+            {
+                $cart->cover = $request->cover;
+            }
+            if($request->id != null)
             {
                 $cart->card_id = $request->id;
             }
@@ -159,10 +150,11 @@ class ListingController extends Controller
     public function getchecklist(Request $request)
     {
             $checktitle = Checktitle::with('checklist')->where('cart_id',$request->cilckid)->get();
-            $comment = Comment::where('cart_id',$request->cilckid)->get();
-            $label = label::where('cart_id',$request->cilckid)->get();
-            $file = Files::where('cart_id',$request->cilckid)->get();
-            $cartfile = Cartpop::where('card_id',$request->cilckid)->first();
+            $comment    = Comment::with("user")->where('cart_id',$request->cilckid)->get();
+            $label      = label::where('cart_id',$request->cilckid)->get();
+            $file       = Files::where('cart_id',$request->cilckid)->get();
+            $cartfile   = Cartpop::where('card_id',$request->cilckid)->first();
+            $card       = Card::where('id',$request->cilckid)->first();
             $div ='';
             $list = '';
             $com = '';
@@ -188,6 +180,11 @@ class ListingController extends Controller
                 foreach($comment as $comm){
 
                     $com .= $comm->id.$comm->comment.'<br>';
+
+                    foreach($comm->user as $user)
+                    {
+                        $username = $user->name;
+                    }
                 }
             }
             if($label){
@@ -206,8 +203,14 @@ class ListingController extends Controller
             {
                 $descr   = $cartfile->description;
                 $carddate = $cartfile->date;
+                $cover = '<div class="modal-header cover" style="background-color:'.$cartfile->cover.'">';
             }
-            return response()->json(['success'=> $div, 'list'=>$list,'com'=>$com,'labs'=>$labs,'select'=>$select,'descr'=>$descr,'carddate'=>$carddate]);
+            if($card)
+            {
+                $cartname = $card->title;
+            }
+            return response()->json(['success'=> $div, 'list'=>$list,'com'=>$com,'labs'=>$labs,'select'=>$select,
+             'cover'=>$cover,'descr'=>$descr,'carddate'=>$carddate,'cartname'=>$cartname,'username'=>$username]);
     }
 
 }

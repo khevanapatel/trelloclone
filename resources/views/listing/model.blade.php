@@ -13,7 +13,7 @@
                         <label for="listing" class="col-sm-3 control-label">List name</label>
                         <div class="col-sm-6">
                             <input type="text" name="list_name" id="list_name" value="" class="form-control">
-                            <input type="hidden" name="listing_id" id="listingId" value="{{$listing->id}}">
+                            <input type="hidden" name="listing_id" id="listingId" value="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -81,25 +81,27 @@
 <div id="myModal" class="modal hide fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">New Name</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                @foreach($cartfile as $value)
+                <div class="headre" style="background-color: {{ $value->cover }}">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title name" id="exampleModalScrollableTitle"></h5>
+                </div>
+                @endforeach
             <div class="col-md-10">
                 <div class="label-label">
                     <h5>LABEL</h5>
-                    {{-- @foreach($label as $value) --}}
+                    @foreach($label as $value)
                     <div class="textlbel" id="divlabel">
                         <span class="labels-labels" style="background-image:"></span>
                     </div>
-                    {{-- @endforeach --}}
+                    @endforeach
                 </div>
                 <div class="dates-date">
                     <h5>DUE DATE</h5>
                     <div class="date-color date" id="carddate"></div>
-                    <input type="hidden" name="card_date" id="card_date" value="" >
+                    <input type="hidden" name="card_date" id="card_date" value="">
                 </div>
                 <div class="description descr">
                     <h4>
@@ -119,10 +121,10 @@
                     </div>
                 </div>
                 @foreach($check as $checktitle)
-                <div class="check-checklist" id="divid">
-                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i> </h4></span>
-                     {{-- <a class="confirm-delete" href="" id="Deletechecklist"
-                        onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a> --}}
+                <div class="check-checklist">
+                    <span> <i class="fa fa-check-square-o" aria-hidden="true"></i>{{ $checktitle->title }} </h4></span>
+                     {{--  <a class="confirm-delete" href="" id="Deletechecklist"
+                        onclick="return confirm('Are you sure you want to delete this Checklist Title')" style="margin: 0">Delete</a>  --}}
                 </div>
                 <div class="progressbar-container">
                     <div class="progressbar-bar ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="">
@@ -131,18 +133,17 @@
                     <span><div class="progressbar-label"></div></span>
                 </div>
                 <div class="form-check" id="pr_result_pr">
-                    {{-- @foreach($checktitle->checklist as $value) --}}
-
-                    <label class="form-check-label" for="defaultCheck1" id="divlist">
-                      {{-- {{ $value->list }} --}}
-                      {{-- <a class="confirm-delete-confirm" href=""
-                        onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a> --}}
+                    @foreach($checktitle->checklist as $value)
+                    <label class="form-check-label" for="defaultCheck1">
+                      <input type="checkbox" name="checklist" id="checklist" value""> {{ $value->list }}
+                      {{--  <a class="confirm-delete-confirm" href=""
+                        onclick="return confirm('Are you sure you want to delete this Checklist')" style="margin: 0">Delete</a>  --}}
                     </label><br >
-                    {{-- @endforeach --}}
+                    @endforeach
                 </div>
                 <div class="add-checklist comment" id="pr_result">
                     <form class="theme-form checklist" id="addchecklist" action="">
-                        <input type="hidden" name="title_id" id="title_id" value="{{$checktitle->id}}">
+                        <input type="hidden" name="title_id" id="title_id" value="{{ $checktitle->id }}">
                         <input type="text"  class="demo-demo" name="checklist" id="textInput" value=""hidden/>
                         <input type="submit" class="btn btn-success" name="answer" value="Add More" onclick="showInputBox()"/>
                     </form>
@@ -155,14 +156,16 @@
                         <input type="submit" value="Save" class="menu-menu btn btn-success" style="display: none;" name="submit" id="submit">
                         <button type="button" class="menu-menu" style="display: none;"><i class="fa fa-times"aria-hidden="true"></i></button>
                     </form>
-                        {{-- @foreach($comment as $value) --}}
-                            <div class="comment-comment" id="divcomment">
-                                <h4> Comment</h4>
-                                {{-- <h5>{{ $value->comment }}</h5> --}}
-                                {{-- <a class="confirm-delete-confirm" href=""
-                                onclick="return confirm('Are you sure you want to delete this Comment')" style="margin: 0">Delete</a> --}}
+                    <div class="comment-comment">
+                        @foreach($comment as $value)
+                            <div class="user-name">
+                                <h4>{{ $value->user['0']->name }}</h4>
+                                <h5>{{ $value->comment }}</h5>
+                                {{--  <a class="confirm-delete-confirm" href=""
+                                onclick="return confirm('Are you sure you want to delete this Comment')" style="margin: 0">Delete</a>  --}}
                             </div>
-                        {{-- @endforeach --}}
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <p class="addtocart"> Add to Cart </p>
@@ -178,8 +181,10 @@
                         </span><span class="js-sidebar-action-text dates">Dates</span></a>
                     <a class="button-link js-change-card-members" data-toggle="modal" data-target="#labels"><span class="icon-sm icon-member">
                     </span><span class="js-sidebar-action-text dates">Labels</span></a>
-                    <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
-                        </span><span class="js-sidebar-action-text Carts">Carts</span></a>
+                    {{-- <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
+                        </span><span class="js-sidebar-action-text Carts">Carts</span></a> --}}
+                    <a class="button-link js-change-card-members" data-toggle="modal" data-target="#covers"><span class="icon-sm icon-member">
+                        </span><span class="js-sidebar-action-text dates">Cover</span></a>
                     <a class="button-link js-change-card-members" href="#"><span class="icon-sm icon-member">
                         </span><span class="js-sidebar-action-text All">All Carts</span></a>
                 </div>
@@ -239,7 +244,7 @@
             <div class="modal-body">
                 <form class="theme-form" id="checklistform" action="">
                     <p>Title</p>
-                    <input type="text" class="form-control" name="checklist" id="checklist" value="">
+                    <input type="text" class="form-control" name="checklist" id="checktitle" value="">
                     <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                 </form>
             </div>
@@ -280,29 +285,10 @@
                 <p>Title</p>
                 <form class="theme-form" id="lablefrom" action="">
                     <input type="text" class="form-control" name="label" id="labe" value=""></br>
-                    <label for="listing" class="control-label"> Color </label>
-                        <div class="store-color">
-                        <label class="container">
-                            <input type="checkbox" value="#ffb000" style="display:none;" name="grayButton" id="grayButton">
-                            <span class="checkmark markcheck"></span>
-                          </label>
-                          <label class="container">
-                            <input type="checkbox" value="#026aa7" style="display:none;" name="redButton" id="Buttonred">
-                            <span class="checkmark check"></span>
-                          </label>
-                          <label class="container">
-                            <input type="checkbox" value="#bb3c3c" style="display:none;" name="blueButton" id="blueButton">
-                            <span class="checkmark marks"></span>
-                          </label>
-                          <label class="container">
-                            <input type="checkbox" value="#ff0000" style="display:none;" name="yellowButton" id="yellowButton">
-                            <span class="checkmark checkmarks"></span>
-                          </label>
-                          <label class="container">
-                            <input type="checkbox" value="#0000ff" style="display:none;" name="redsButton" id="redsButton">
-                            <span class="checkmark checkm"></span>
-                          </label>
-                        </div>
+                    {{-- <label for="listing" class="control-label"> Color </label>
+                    <input type="text" name="custom_color" placeholder="#FFFFFF" value="#c6181d" id="labelcolor" class="call-picker">
+                    <div class="color-holder call-picker"></div>
+                    <div class="color-picker" id="color-picker" style="display: none"></div> --}}
                     <input type="submit" class="btn btn-success" value="Save" name="submit" id="submit">
                 </form>
             </div>
@@ -326,4 +312,29 @@
     </div>
 </div>
 {{-- End Delete Attachment Model --}}
+{{-- Start Cover Model --}}
+<div class="modal fade" id="covers" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Cover</h4>
+            </div>
+            <div class="modal-body">
+                <form class="theme-form" id="coverfrom" action="">
+                        <div class="store-color">
+                            <div class="color-wrapper">
+                                <p>Choose color (# hex)</p>
+                                <input type="text" name="custom_color" placeholder="#FFFFFF" id="pickcolor" class="call-picker">
+                                <div class="color-holder call-picker"></div>
+                                <div class="color-picker" id="color-picker" style="display: none"></div>
+                              </div>
+                        </div>
+                    <input type="submit" class="btn btn-success btn-color-cover" value="Save" name="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Cover Model --}}
 

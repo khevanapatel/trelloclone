@@ -37,6 +37,79 @@
         .form-horizontal .form-group {
             margin-left: -57px;
         }
+        span.checkmark.checkpink {
+            background-color: #ff8ed4;
+        }
+        span.checkmark.checkff {
+            background-color: #2d2727;
+        }
+
+        .color-wrapper {
+            position: relative;
+            width: 250px;
+            margin: 20px auto;
+        }
+
+        .color-wrapper p {
+            margin-bottom: 5px;
+        }
+
+        input.call-picker {
+            border: 1px solid #AAA;
+            color: #666;
+            text-transform: uppercase;
+            float: left;
+            outline: none;
+            padding: 5px;
+            text-transform: uppercase;
+            width: 85px;
+        }
+
+        .color-picker {
+            width: 250px;
+            background: #F3F3F3;
+            height: 346px;
+            padding: 22px;
+            border: 5px solid #fff;
+            box-shadow: 0px 0px 3px 1px #DDD;
+            position: absolute;
+            top: 61px;
+            left: 4px;
+        }
+
+        .color-holder {
+          background: #fff;
+            cursor: pointer;
+            border: 1px solid #AAA;
+            width: 40px;
+            height: 32px;
+            float: left;
+            margin-left: 13px;
+        }
+
+        .color-picker .color-item {
+            cursor: pointer;
+            width: 35px;
+            height: 34px;
+            list-style-type: none;
+            float: left;
+            margin: 2px;
+            border: 1px solid #DDD;
+        }
+
+        .color-picker .color-item:hover {
+            border: 1px solid #666;
+            opacity: 0.8;
+            -moz-opacity: 0.8;
+            filter:alpha(opacity=8);
+        }
+        input.btn.btn-success.btn-color-cover {
+            margin-top: -49px;
+            margin-left: 16px;
+        }
+        .modal-header.cover {
+            height: 100px;
+        }
     </style>
 @endsection
 
@@ -102,6 +175,34 @@
 
     <script type="text/javascript"/>
 
+    var colorList = [ '000000', '993300', '333300', '003300', '003366', '000066', '333399', '333333',
+                      '660000', 'FF6633', '666633', '336633', '336666', '0066FF', '666699', '666666',
+                      'CC3333', 'FF9933', '99CC33', '669966', '66CCCC', '3366FF', '663366', '999999',
+                      'CC66FF', 'FFCC33', 'FFFF66', '99FF66', '99CCCC', '66CCFF', '993366', 'CCCCCC',
+                      'FF99CC', 'FFCC99', 'FFFF99', 'CCffCC', 'CCFFff', '99CCFF', 'CC99FF', 'FFFFFF' ];
+		var picker = $('#color-picker');
+
+		for (var i = 0; i < colorList.length; i++ ) {
+			picker.append('<li class="color-item" data-hex="' + '#' + colorList[i] + '" style="background-color:' + '#' + colorList[i] + ';"></li>');
+		}
+
+		$('body').click(function () {
+			picker.fadeOut();
+		});
+
+		$('.call-picker').click(function(event) {
+			event.stopPropagation();
+			picker.fadeIn();
+			picker.children('li').hover(function() {
+				var codeHex = $(this).data('hex');
+
+				$('.color-holder').css('background-color', codeHex);
+				$('#pickcolor').val(codeHex);
+			});
+		});
+
+
+
     $(document).ready(function() {
         $("#myButton").click(function() {
             alert('hiii');
@@ -141,6 +242,9 @@
                 $("#divfile").append(response.select);
                 $("#show").val(response.descr);
                 $("#carddate").append(response.carddate);
+                $("#cover").append(response.cover);
+                $(".name").append(response.cartname);
+                $("#divusername").append(response.username);
             }
 
         });
@@ -249,8 +353,8 @@
                       async:false,
                       type:'post',
                       processData: false,
-                      contentType: false,
                       success:function(response){
+                      contentType: false,
                         console.log(response);
                         location.reload(true);
                       },
@@ -308,7 +412,7 @@
                     dataType:'json',
                     data: {
                         '_token': "{{ csrf_token() }}",
-                        'show': show,
+                        'show':show,
                         'id': id,
 
                     },
@@ -336,7 +440,7 @@
                     },
                     success: function(response) {
                         console.log('success');
-                        /*location.reload(true);*/
+                        location.reload(true);
                     }
 
                 });
@@ -345,8 +449,8 @@
 
             $('#checklistform').on('submit',function(event){
                 event.preventDefault();
-                var checklist = $('#checklist').val();
-
+                var checklist = $('#checktitle').val();
+                alert(checklist);
                 $.ajax({
                     url:"{{ route('check.title') }}",
                     method:"post",
@@ -366,12 +470,8 @@
             $('#lablefrom').on('submit', function(event){
                 event.preventDefault();
                 var label = $('#labe').val();
-                var color = $('#grayButton').val();
-                var color = $('#Buttonred').val();
-                var color = $('#blueButton').val();
-                var color = $('#yellowButton').val();
-                var color = $('#redsButton').val();
-
+                var color = $('.labelcolor').val();
+                alert(color);
                 $.ajax({
                     url:"{{ route('label') }}",
                     method:"post",
@@ -401,6 +501,26 @@
                             'start':start,
                         },
                         success:function(response){
+                            console.log('success');
+                            location.reload(true);
+                        }
+                    });
+                });
+
+                $('#coverfrom').on('submit',function(event){
+                    event.preventDefault();
+                    var cover = $('#pickcolor').val();
+                    alert(cover);
+                    $.ajax({
+                        url:"{{ route('update.files') }}",
+                        method:"post",
+                        data:{
+                            '_token': "{{ csrf_token() }}",
+                            'id':id,
+                            'cover':cover,
+                        },
+                        success:function(response){
+                            alert(response);
                             console.log('success');
                             location.reload(true);
                         }

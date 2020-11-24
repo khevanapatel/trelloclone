@@ -40,6 +40,7 @@ class CardsController extends Controller
         $cards->save();
         return response()->json('success');
 
+
     }
 
     // Display Card //
@@ -47,6 +48,7 @@ class CardsController extends Controller
     {
         $listing = Listing::find($listing_id);
         $card = Card::find($card_id);
+        // return $card;
 
         return view('card/show', ['listing' => $listing, 'card' => $card]);
     }
